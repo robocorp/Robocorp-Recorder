@@ -1,4 +1,6 @@
 # Change Log
+## [next release]
+
 
 ## [0.4.0] 22 Sept 2018
 - Add hidden option to customise the locators
