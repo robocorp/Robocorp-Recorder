@@ -12,6 +12,7 @@ const maxLength = 5000;
 let recordTab = 0;
 let demo = false;
 let verify = false;
+let target = 'SeleniumLibrary';
 
 storage.set({
   locators: ['for', 'name', 'id', 'title', 'href', 'class'],
@@ -20,7 +21,8 @@ storage.set({
   demo: false,
   verify: false,
   canSave: false,
-  isBusy: false
+  isBusy: false,
+  target: 'SeleniumLibrary'
 });
 
 function selection(item) {
@@ -48,6 +50,7 @@ function selection(item) {
 
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
   let { operation } = request;
+  host.runtime.getBackgroundPage(page => page.console.debug(request))
 
   if (operation === 'record') {
     icon.setIcon({ path: logo[operation] });
@@ -112,9 +115,10 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
       filename
     });
   } else if (operation === 'settings') {
-    ({ demo, verify } = request);
-
-    storage.set({ locators: request.locators, demo, verify });
+    ({ demo, verify, target } = request);
+    storage.set({
+      locators: request.locators, demo, verify, target
+    });
   } else if (operation === 'load') {
     storage.get({ operation: 'stop', locators: [] }, (state) => {
       content.sendMessage(sender.tab.id, { operation: state.operation, locators: state.locators });

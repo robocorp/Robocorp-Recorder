@@ -115,6 +115,7 @@ function toggle(e) {
   }
   if (e.demo) { document.getElementById('demo').checked = e.demo; }
   if (e.verify) { document.getElementById('verify').checked = e.verify; }
+  if (e.target) { document.getElementById('target').value = e.value; }
 }
 
 function busy(e) {
@@ -137,8 +138,9 @@ function settings(e) {
   const locators = $('#sortable').sortable('toArray', { attribute: 'id' });
   const demo = document.getElementById('demo').checked;
   const verify = document.getElementById('verify').checked;
+  const target = document.getElementById('target').value;
   host.runtime.sendMessage({
-    operation: 'settings', locators, demo, verify
+    operation: 'settings', locators, demo, verify, target
   });
   analytics(['_trackEvent', 'setting', e.target.id]);
 }
@@ -189,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id).addEventListener('click', operation);
   });
 
-  ['demo', 'verify'].forEach((id) => {
+  ['demo', 'verify', 'target'].forEach((id) => {
     document.getElementById(id).addEventListener('change', settings);
   });
 
