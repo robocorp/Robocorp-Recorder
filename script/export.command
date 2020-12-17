@@ -11,6 +11,7 @@ done < "$FILE"
 
 echo $VERSION
 
+mkdir -p archive
 zip -r archive/${VERSION}.zip . -x *.git* *.DS_Store *.idea* *.zip script/\* archive/\* test/\* node_modules/\* package* .eslint* docs/\* yarn.lock yarn-error.log .travis.yml
 
 exit;
