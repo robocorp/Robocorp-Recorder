@@ -50,7 +50,7 @@ function selection(item) {
 
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
   let { operation } = request;
-  host.runtime.getBackgroundPage(page => page.console.debug(request))
+  host.runtime.getBackgroundPage(page => page.console.debug(request));
 
   if (operation === 'record') {
     icon.setIcon({ path: logo[operation] });

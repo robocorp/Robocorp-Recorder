@@ -33,11 +33,14 @@ function analytics(data) {
 */
 function analytics(_) {}
 
-function logger(data) {
-    host.runtime.getBackgroundPage(page => 
-      page.console.debug(data)
-    );
-}
+const logger = {
+  debug: (data) => {
+    host.runtime.getBackgroundPage(page => page.console.debug(data));
+  },
+  error: (data) => {
+    host.runtime.getBackgroundPage(page => page.console.error(data));
+  }
+};
 
 const clipboard = new ClipboardJS('#copy');
 
@@ -56,10 +59,8 @@ clipboard.on('success', (e) => {
 clipboard.on('error', (e) => {
   copyStatus('copy-fail');
   analytics(['_trackEvent', 'copy', 'nok']);
-  /* eslint-disable no-console */
-  console.error('Action:', e.action);
-  console.error('Trigger:', e.trigger);
-  /* eslint-enable no-console */(
+  logger.error('Action:', e.action);
+  logger.error('Trigger:', e.trigger);
 });
 
 function display(message) {
@@ -84,7 +85,7 @@ function enable(array, isEnabled) {
 }
 
 function toggle(e) {
-  logger(e.target.id);
+  logger.debug(e.target.id);
   if (e.target.id === 'record') {
     show(['stop', 'pause'], true);
     show(['record', 'resume', 'scan'], false);
