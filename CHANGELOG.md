@@ -1,7 +1,9 @@
 # Change Log
-## [next release]
+Robocorp Recorder
+## [0.1.0]
 
 
+Original Robocorder (originally hosted at https://github.com/sohwendy/Robotcorder and authored by Wendy)
 ## [0.4.0] 22 Sept 2018
 - Add hidden option to customise the locators
 - Bump up devDependencies versions

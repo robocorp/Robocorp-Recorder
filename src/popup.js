@@ -1,12 +1,12 @@
 /* global document $ chrome ClipboardJS */
 const debug = false;
-const gaAccount = 'UA-88380525-1';
-const version = '0.3.0';
-
 const host = chrome;
 const storage = host.storage.local;
 
 /*eslint-disable */
+/* 
+const gaAccount = 'UA-88380525-1';
+const version = '0.3.0';
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', gaAccount]);
 _gaq.push(['_trackPageview']);
@@ -18,12 +18,10 @@ _gaq.push(['_trackPageview']);
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(ga, s);
 })();
+*/
 /* eslint-enable */
 
-function logger(data) {
-  if (debug) document.getElementById('textarea-log').value = data;
-}
-
+/*
 function analytics(data) {
   const versionData = data;
   if (gaAccount) {
@@ -31,6 +29,14 @@ function analytics(data) {
     _gaq.push(versionData);
     logger(gaAccount && versionData);
   }
+}
+*/
+function analytics(_) {}
+
+function logger(data) {
+    host.runtime.getBackgroundPage(page => 
+      page.console.debug(data)
+    );
 }
 
 const clipboard = new ClipboardJS('#copy');
@@ -53,7 +59,7 @@ clipboard.on('error', (e) => {
   /* eslint-disable no-console */
   console.error('Action:', e.action);
   console.error('Trigger:', e.trigger);
-  /* eslint-enable no-console */
+  /* eslint-enable no-console */(
 });
 
 function display(message) {

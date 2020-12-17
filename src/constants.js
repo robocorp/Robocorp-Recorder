@@ -1,4 +1,4 @@
-const url = 'https://github.com/sohwendy/Robotcorder';
+const url = 'https://github.com/robocorp/Robotcorder';
 
 const tab = { active: true, currentWindow: true };
 
@@ -10,7 +10,7 @@ const logo = {
   pause: '/assets/icon-pause.png'
 };
 
-const filename = 'test_script.robot';
+const filename = 'robot_script.robot';
 
 const statusMessage = {
   stop: 'Stopped',
@@ -18,12 +18,8 @@ const statusMessage = {
   scan: 'Scanning html document...'
 };
 
-const instruction = 'Robotcorder\n'
-  + '\n'
-  + 'Generate your RobotFramework Test Script via\n'
-  + '* Record user actions\n'
-  + '* Scan the page for inputs\n'
-  + '* Config the locators priorities that best suit your app\n'
-  + '\n'
-  + '\n'
-  + 'Automating test automation 🤗';
+const instruction = `Robocorp Recorder
+  Generate a Robot Framework automation script by
+  * Recording actions
+  * Scanning the page for automatable inputs
+   Automating automation 🤗`;
