@@ -1,10 +1,8 @@
 # Robotcorder
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/sohwendy/Robotcorder.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/sohwendy/Robotcorder.svg?branch=master)](https://travis-ci.org/sohwendy/Robotcorder)
-[![Known Vulnerabilities](https://snyk.io/test/github/sohwendy/robotcorder/badge.svg?targetFile=package.json)](https://snyk.io/test/github/sohwendy/robotcorder?targetFile=package.json)
+![Build Status](https://github.com/robocorp/Robotcorder/workflows/on-push%20jobs/badge.svg)
 
-> A browser extension (beta) that generates [RobotFramework](http://robotframework.org/) test scripts
+> A browser extension that generates [RobotFramework](http://robotframework.org/) test scripts for SeleniumLibrary and Browser. Forked from https://github.com/sohwendy/Robotcorder
 
 ## Features
 
@@ -15,30 +13,24 @@
 
 [Watch it in action!](http://bit.ly/robotcorder-video)
 
+** New Feature (December 2020) ** 
+Choose between generating locators for Robotframework Browser (playwright based) or SeleniumLibrary
+
 ** New Feature (22 Sept 2018) **  
 Edit the locators.  
 go to chrome://extensions  
 click on Extension options  
 edit and update the locators
 
-
 ## Download
-[Robotcorder - Chrome Web Store](https://chrome.google.com/webstore/detail/robotcorder/ifiilbfgcemdapeibjfohnfpfmfblmpd)
-
+Coming to chrome web store
+<!--  [Robotcorder - Chrome Web Store](https://chrome.google.com/webstore/detail/robotcorder/ifiilbfgcemdapeibjfohnfpfmfblmpd) 
+-->
 
 ## Package
 ``` $ script/export.command ```
 or
 ``` $ npm run export ```
-
-
-## To Do
-- [ ] use select from radio, checkbox
-- [ ] check why display is receiving null message
-- [ ] write unit test
-- [X] setup ci
-- [X] add more configurations
-
 
 ## Contributing
 1. Fork it
@@ -48,7 +40,7 @@ or
 5. Create new Pull Request
 
 ## Change Log
-Refer to [CHANGELOG.md](http://bit.ly/robotcorder-changelog)
+Refer to [CHANGELOG.md](https://github.com/robocorp/Robotcorder/blob/master/CHANGELOG.md)
 
 
 ## Github Pages

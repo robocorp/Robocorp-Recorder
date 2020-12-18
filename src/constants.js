@@ -15,7 +15,8 @@ const filename = 'robot_script.robot';
 const statusMessage = {
   stop: 'Stopped',
   record: 'Recording action...',
-  scan: 'Scanning html document...'
+  scan: 'Scanning html document...',
+  failed: "Operation failed. Please try refreshing. If it doesn't help, the active tab might not support recording.",
 };
 
 const instruction = `Robocorp Recorder

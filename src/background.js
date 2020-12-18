@@ -49,6 +49,15 @@ function selection(item) {
   list.push(item);
 }
 
+const logger = {
+  debug: (data) => {
+    host.runtime.getBackgroundPage(page => page.console.debug(data));
+  },
+  error: (data) => {
+    host.runtime.getBackgroundPage(page => page.console.error(data));
+  }
+};
+
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
   storage.get('target', (items) => {
     const translator = initializeTranslator(items.target);
@@ -88,17 +97,26 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } else if (operation === 'scan') {
       icon.setIcon({ path: logo.action });
 
-      content.query(tab, (tabs) => {
-        [recordTab] = tabs;
-        list = [{
-          type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
-        }];
-        content.sendMessage(tabs[0].id, { operation, locators: request.locators });
+      let executed = false;
+      content.query({ active: true }, (tabs) => {
+        if (tabs) {
+          executed = true;
+          [recordTab] = tabs;
+          list = [{
+            type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
+          }];
+          content.sendMessage(tabs[0].id, { operation, locators: request.locators });
+        }
       });
-
-      storage.set({
-        message: statusMessage[operation], operation: 'scan', canSave: true, isBusy: true
-      });
+      if (executed) {
+        storage.set({
+          message: statusMessage[operation], operation: 'scan', canSave: true, isBusy: true
+        });
+      } else {
+        storage.set({
+          message: statusMessage.failed, operation: 'scan', canSave: false, isBusy: false
+        });
+      }
     } else if (operation === 'stop') {
       recordTab = 0;
       icon.setIcon({ path: logo[operation] });
