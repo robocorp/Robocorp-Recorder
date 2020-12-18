@@ -11,7 +11,10 @@
     "lint-fix": "./node_modules/.bin/eslint . --fix",
     "test-local": "yarn run nyc mocha  -r test/setup.js test/* --reporter nyan",
     "test": "yarn run lint-fix && yarn run test-local",
-    "export": "./script/export.command"
+    "export": "./script/export.command",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "repository": {
     "type": "git",
@@ -28,9 +31,11 @@
     "eslint": "^5.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.11.0",
+    "husky": "^5.0.6",
     "jsdom": "^11.12.0",
     "mocha": "^5.2.0",
     "nyc": "^15.1.0",
+    "pinst": "^2.1.1",
     "sinon-chrome": "^2.3.2"
   }
 }
