@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Robocorp Recorder",
-  "version": "0.4.0",
+  "version": "0.1.0",
   "homepage_url": "https://github.com/robocorp/Robotcorder",
   "description": "A Robot that records user action and scans the page to generate RobotFramework test scripts (beta)",
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",

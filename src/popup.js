@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isBusy: false,
     demo: false,
     verify: false,
+    library_target: 'SeleniumLibrary',
     locators: []
   }, (state) => {
     display({ message: state.message });
@@ -178,7 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
       canSave: state.canSave,
       isBusy: state.isBusy,
       demo: state.demo,
-      verify: state.verify
+      verify: state.verify,
+      library_target: state.library_target,
     });
     setTimeout(() => {
       const sortable = document.getElementById('sortable');

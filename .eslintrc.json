@@ -4,7 +4,7 @@
       "mocha": true
     },
     "rules": {
-      "comma-dangle": ["error", "never"],
+      "comma-dangle": ["error", "only-multiline"],
       "max-len": ["error", {"code":120, "comments": 120}],
       "no-template-curly-in-string": "off",
       "no-plusplus": "off",

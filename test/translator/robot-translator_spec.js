@@ -2,9 +2,10 @@
 
 const { expect } = require('chai');
 const sinon = require('sinon');
-const { translator } = require('../../src/translator/robot-translator');
+const { initializeTranslator } = require('../../src/translator/robot-translator');
 
-describe('robot-translator', () => {
+describe('seleniumlibrary-translator', () => {
+  const translator = initializeTranslator('SeleniumLibrary');
   describe('generateOutput()', () => {
     let sandbox;
     before(() => { sandbox = sinon.sandbox.create(); });
