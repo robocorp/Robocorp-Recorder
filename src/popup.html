@@ -48,11 +48,13 @@
 
   <div id="settings-panel" class="pad hidden">
     <div class="panel-row">
-      <span>Drag to reorder locators priority</span>
-      <ul id="sortable" class="ui-sortable"/>
-    </div>
-
-    <div class="panel-row">
+      <div>
+        <select name="target_library" id="target" selected>
+          <option value="SeleniumLibrary">RPA.Browser.Selenium / SeleniumLibrary</option>
+          <option value="Browser">RobotFramework Browser</option>
+        </select>
+        <label for="target"> Which library to target</label>
+      </div>
       <div>
         <input type="checkbox" id="demo" />
         <label for="demo"> Add a 3s sleep after each action (for demo) </label>
@@ -61,13 +63,7 @@
         <input type="checkbox" id="verify" />
         <label for="verify">Check page contains element before performing the action</label>
       </div>
-      <div>
-        <select name="target_library" id="target" selected>
-          <option value="SeleniumLibrary">RPA.Browser.Selenium / SeleniumLibrary</option>
-          <option value="RobotFramework_Browser">RobotFramework Browser</option>
-        </select>
-        <label for="target"> Which library to target</label>
-      </div>
+
     </div>
   </div>
 

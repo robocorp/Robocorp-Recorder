@@ -90,26 +90,18 @@ function toggle(e) {
     show(['stop', 'pause'], true);
     show(['record', 'resume', 'scan'], false);
     enable(['settings-panel'], false);
-
-    $('#sortable').sortable('disable');
   } else if (e.target.id === 'pause') {
     show(['resume', 'stop'], true);
     show(['record', 'scan', 'pause'], false);
     enable(['settings-panel'], false);
-
-    $('#sortable').sortable('disable');
   } else if (e.target.id === 'resume') {
     show(['pause', 'stop'], true);
     show(['record', 'scan', 'resume'], false);
     enable(['settings-panel'], false);
-
-    $('#sortable').sortable('disable');
   } else if ((e.target.id === 'stop') || (e.target.id === 'scan')) {
     show(['record', 'scan'], true);
     show(['resume', 'stop', 'pause'], false);
     enable(['settings-panel'], true);
-
-    $('#sortable').sortable('enable');
   } else if (e.target.id === 'settings') {
     analytics(['_trackEvent', 'settings', '⚙️']);
     document.getElementById('settings-panel').classList.toggle('hidden');
@@ -135,19 +127,17 @@ function busy(e) {
 
 function operation(e) {
   toggle(e);
-  const locators = $('#sortable').sortable('toArray', { attribute: 'id' });
-  host.runtime.sendMessage({ operation: e.target.id, locators }, display);
+  host.runtime.sendMessage({ operation: e.target.id }, display);
 
   analytics(['_trackEvent', e.target.id, '^-^']);
 }
 
 function settings(e) {
-  const locators = $('#sortable').sortable('toArray', { attribute: 'id' });
   const demo = document.getElementById('demo').checked;
   const verify = document.getElementById('verify').checked;
   const target = document.getElementById('target').value;
   host.runtime.sendMessage({
-    operation: 'settings', locators, demo, verify, target
+    operation: 'settings', demo, verify, target
   });
   analytics(['_trackEvent', 'setting', e.target.id]);
 }
@@ -182,16 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
       verify: state.verify,
       library_target: state.library_target,
     });
-    setTimeout(() => {
-      const sortable = document.getElementById('sortable');
-      state.locators.forEach((locator) => {
-        const li = document.createElement('li');
-        li.appendChild(document.createTextNode(locator));
-        li.setAttribute('id', locator);
-        li.setAttribute('class', 'ui-state-default');
-        sortable.appendChild(li);
-      });
-    }, 200);
   });
 
   debug ? document.getElementById('textarea-log').classList.remove('hidden') : 0;
@@ -207,9 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('like').addEventListener('click', like);
   document.getElementById('info').addEventListener('click', info);
   document.getElementById('settings').addEventListener('click', toggle);
-
-  $('#sortable').sortable({ update: settings });
-  $('#sortable').disableSelection();
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {

@@ -12,7 +12,7 @@ const seleniumLibraryMap = {
 };
 
 const rfbrowserMap = {
-  url: { keyword: 'New Browser' },
+  url: { keyword: 'New Page' },
   text: { keyword: 'Fill Text', value: 'y' },
   // file: { keyword: 'Choose File', value: 'y' },
   button: { keyword: 'Click' },
@@ -43,19 +43,19 @@ const initializeTranslator = (target) => {
     generateFile(list, length, demo, verify) {
       let events = this._generateEvents(list, length, demo, verify);
 
-      events = events.reduce((a, b) => `${a}    ${b}\n`, '');
+      events = events.join('\n    ');
 
-      return '*** Settings ***'
-        + `\nDocumentation     A test suite with a single test for ${list[0].title}`
-        + "\n...               Created by hats' Robotcorder"
-        + '\nLibrary           Selenium2Library    timeout=10'
-        + '\n\n*** Variables ***'
-        + '\n${BROWSER}    chrome'
-        + '\n${SLEEP}    3'
-        + '\n\n*** Test Cases ***'
-        + `\n${list[0].title} test`
-        + `\n${events}`
-        + '\n    Close Browser';
+      return `*** Settings ***
+Documentation     A Robot script with a single task for ${list[0].title}
+...               Created by Robot recorder"
+Library           ${target}    timeout=10
+Test Teardown     Close Browser
+*** Variables ***
+\${BROWSER}    chromium
+\${SLEEP}    3
+\n*** Test Cases ***
+${list[0].title} test
+    ${events}`;
     },
 
     _generatePath(attr) {

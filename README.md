@@ -4,6 +4,9 @@
 
 > A browser extension that generates [RobotFramework](http://robotframework.org/) test scripts for SeleniumLibrary and Browser. Forked from https://github.com/sohwendy/Robotcorder
 
+Check https://robocorp.com/docs/development-howtos/browser for generic browser automation documentation and 
+https://robocorp.com/docs/development-howtos/browser/playwright for playwright based Browser library documentation.
+
 ## Features
 
 1. Recording user actions

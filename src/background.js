@@ -72,7 +72,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
         list = [{
           type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
         }];
-        content.sendMessage(tabs[0].id, { operation, locators: request.locators });
+        content.sendMessage(tabs[0].id, { operation });
       });
 
       storage.set({ message: statusMessage[operation], operation, canSave: false });
@@ -90,7 +90,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       content.query(tab, (tabs) => {
         [recordTab] = tabs;
-        content.sendMessage(tabs[0].id, { operation, locators: request.locators });
+        content.sendMessage(tabs[0].id, { operation });
       });
 
       storage.set({ message: statusMessage[operation], operation, canSave: false });
@@ -138,7 +138,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } else if (operation === 'settings') {
       ({ demo, verify, target } = request);
       storage.set({
-        locators: request.locators, demo, verify, target
+        demo, verify, target
       });
     } else if (operation === 'load') {
       storage.get({ operation: 'stop', locators: [] }, (state) => {

@@ -5,7 +5,8 @@ const sinon = require('sinon');
 const { initializeTranslator } = require('../../src/translator/robot-translator');
 
 describe('seleniumlibrary-translator', () => {
-  const translator = initializeTranslator('SeleniumLibrary');
+  const target = 'SeleniumLibrary';
+  const translator = initializeTranslator(target);
   describe('generateOutput()', () => {
     let sandbox;
     before(() => { sandbox = sinon.sandbox.create(); });
@@ -28,7 +29,7 @@ describe('seleniumlibrary-translator', () => {
       const events = ['a', 'b', 'c'];
       sandbox.stub(translator, '_generateEvents').returns(events);
 
-      const expected = '*** Settings ***'
+      /* const expected = '*** Settings ***'
         + '\nDocumentation     A test suite with a single test for some_title'
         + "\n...               Created by hats' Robotcorder"
         + '\nLibrary           Selenium2Library    timeout=10'
@@ -39,6 +40,18 @@ describe('seleniumlibrary-translator', () => {
         + '\nsome_title test'
         + `\n    ${events.join('\n    ')}\n`
         + '\n    Close Browser';
+*/
+      const expected = `*** Settings ***
+Documentation     A Robot script with a single task for some_title
+...               Created by Robot recorder"
+Library           ${target}    timeout=10
+Test Teardown     Close Browser
+*** Variables ***
+\${BROWSER}    chromium
+\${SLEEP}    3
+\n*** Test Cases ***
+some_title test
+    ${events.join('\n    ')}`;
 
       const result = translator.generateFile([{ title: 'some_title' }], 1, true, true);
 
