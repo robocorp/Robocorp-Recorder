@@ -3,13 +3,13 @@ const url = 'https://github.com/robocorp/Robotcorder';
 const tab = { active: true, currentWindow: true };
 
 const logo = {
-  stop: '/assets/icon-stop.png',
-  record: '/assets/icon-record.png',
-  scan: '/assets/stop.png',
-  action: '/assets/icon-action.png',
-  pause: '/assets/pause.svg'
+  stop: '/assets/mark-128.png',
+  record: '/assets/btn-record.svg',
+  scan: '/assets/icon-target.svg',
+  action: '/assets/mark-128.png',
+  pause: '/assets/icon-pause.svg'
 };
-
+// This does not seem to propagate correctly to background.js
 const filename = 'robot_script.robot';
 
 const statusMessage = {
@@ -19,7 +19,7 @@ const statusMessage = {
   failed: "Operation failed. Please try refreshing. If it doesn't help, the active tab might not support recording.",
 };
 
-const instruction = `Robocorp Recorder
+const instruction = `RF Recorder
   Generate a Robot Framework automation script by
   * Recording actions
   * Scanning the page for automatable inputs

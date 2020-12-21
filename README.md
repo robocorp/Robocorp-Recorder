@@ -2,9 +2,16 @@
 
 ![Build Status](https://github.com/robocorp/Robotcorder/workflows/on-push%20jobs/badge.svg)
 
-> A browser extension that generates [RobotFramework](http://robotframework.org/) test scripts for SeleniumLibrary and Browser. Forked from https://github.com/sohwendy/Robotcorder
+> A browser extension that generates [RobotFramework](http://robotframework.org/) automation scripts for SeleniumLibrary and Browser. 
 
-Check https://robocorp.com/docs/development-howtos/browser for generic browser automation documentation and 
+Fork based on https://github.com/sohwendy/Robotcorder
+
+See upstream
+- [robotframework-browser](https://robotframework-browser.org/) documentation
+- [SeleniumLibrary](https://robotframework.org/SeleniumLibrary/) documentation
+
+
+For extra guides you can check out https://robocorp.com/docs/development-howtos/browser for generic browser automation documentation and 
 https://robocorp.com/docs/development-howtos/browser/playwright for playwright based Browser library documentation.
 
 ## Features
@@ -16,10 +23,11 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 
 [Watch it in action!](http://bit.ly/robotcorder-video)
 
-** New Feature (December 2020) ** 
+** New Features Robocorp (December 2020) ** 
 Choose between generating locators for Robotframework Browser (playwright based) or SeleniumLibrary
+Choose between RPA or Test focused Robot Framework syntax
 
-** New Feature (22 Sept 2018) **  
+** New Features (22 Sept 2018) **  
 Edit the locators.  
 go to chrome://extensions  
 click on Extension options  

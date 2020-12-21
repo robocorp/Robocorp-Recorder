@@ -1,7 +1,11 @@
 # Change Log
 Robocorp Recorder
-## [0.1.0]
+## [0.2.0]
+- Add Robocorp style icons and branding
+- Remove need for "all-pages" permission
 
+## [0.1.0]
+- Add option to toggle between robotframework-browser and SeleniumLibrary code generation
 
 Original Robocorder (originally hosted at https://github.com/sohwendy/Robotcorder and authored by Wendy)
 ## [0.4.0] 22 Sept 2018

@@ -13,6 +13,7 @@ let recordTab = 0;
 let demo = false;
 let verify = false;
 let target = 'SeleniumLibrary';
+let syntax = 'rpa';
 
 // Initialize values in localStorage
 storage.set({
@@ -59,8 +60,8 @@ const logger = {
 };
 
 host.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  storage.get('target', (items) => {
-    const translator = initializeTranslator(items.target);
+  storage.get(['target', 'syntax'], (items) => {
+    const translator = initializeTranslator(items.target, items.syntax);
     let { operation } = message;
     host.runtime.getBackgroundPage(page => page.console.debug(message));
 
@@ -95,8 +96,6 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       storage.set({ message: statusMessage[operation], operation, canSave: false });
     } else if (operation === 'scan') {
-      icon.setIcon({ path: logo.action });
-
       let executed = false;
       content.query({ active: true }, (tabs) => {
         if (tabs) {
@@ -129,6 +128,7 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       storage.set({ message: script, operation, canSave: true });
     } else if (operation === 'save') {
       const file = translator.generateFile(list, maxLength, demo, verify);
+      logger.debug(file);
       const blob = new Blob([file], { type: 'text/plain;charset=utf-8' });
 
       host.downloads.download({
@@ -136,9 +136,11 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         filename
       });
     } else if (operation === 'settings') {
-      ({ demo, verify, target } = message);
+      ({
+        demo, verify, target, syntax
+      } = message);
       storage.set({
-        demo, verify, target
+        demo, verify, target, syntax
       });
     } else if (operation === 'load') {
       storage.get({ operation: 'stop', locators: [] }, (state) => {
@@ -163,5 +165,5 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   });
   // https://stackoverflow.com/a/56483156 lets chrome now that our callback succeeded
-  return true;
+  return false;
 });

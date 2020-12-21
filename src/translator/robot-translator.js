@@ -26,12 +26,24 @@ const rfbrowserMap = {
 
 
 /**
- * @param {string} target
+ * @param {'SeleniumLibrary' | 'Browser'} target
+  * @param {'rpa' | 'testing'} syntax
  */
-const initializeTranslator = (target) => {
+const initializeTranslator = (target, syntax) => {
   const map = target === 'SeleniumLibrary'
     ? seleniumLibraryMap
     : rfbrowserMap;
+
+  let syntaxWord;
+  let cases;
+
+  if (syntax === 'rpa') {
+    syntaxWord = 'Task';
+    cases = 'Tasks';
+  } else {
+    syntaxWord = 'Test';
+    cases = 'Test Cases';
+  }
 
   return {
     generateOutput(list, length, demo, verify) {
@@ -49,12 +61,12 @@ const initializeTranslator = (target) => {
 Documentation     A Robot script with a single task for ${list[0].title}
 ...               Created by Robot recorder"
 Library           ${target}    timeout=10
-Test Teardown     Close Browser
+${syntaxWord} Teardown     Close Browser
 *** Variables ***
 \${BROWSER}    chromium
 \${SLEEP}    3
-\n*** Test Cases ***
-${list[0].title} test
+\n*** ${cases} ***
+${list[0].title} ${syntaxWord}
     ${events}`;
     },
 

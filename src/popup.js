@@ -114,7 +114,9 @@ function toggle(e) {
   }
   if (e.demo) { document.getElementById('demo').checked = e.demo; }
   if (e.verify) { document.getElementById('verify').checked = e.verify; }
-  if (e.target) { document.getElementById('target').value = e.value; }
+  // This is necessary to let the old settings show when user re-opens the settings modal
+  if (e.target) { /* FIXME: select corresponding radio here */ }
+  if (e.syntax) { /* FIXME: select corresponding radio here */ }
 }
 
 function busy(e) {
@@ -132,12 +134,20 @@ function operation(e) {
   analytics(['_trackEvent', e.target.id, '^-^']);
 }
 
-function settings(e) {
+function updateSettings(e) {
   const demo = document.getElementById('demo').checked;
   const verify = document.getElementById('verify').checked;
-  const target = document.getElementById('target').value;
+  const rfbrowserRadio = document.getElementById('target_rfbrowser');
+  const rpaSyntax = document.getElementById('syntax_rpa');
+  const target = rfbrowserRadio.checked
+    ? 'Browser'
+    : 'SeleniumLibrary';
+  const syntax = rpaSyntax.checked
+    ? 'rpa'
+    : 'testing';
+
   host.runtime.sendMessage({
-    operation: 'settings', demo, verify, target
+    operation: 'settings', demo, verify, target, syntax
   });
   analytics(['_trackEvent', 'setting', e.target.id]);
 }
@@ -176,8 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id).addEventListener('click', operation);
   });
 
-  ['demo', 'verify', 'target'].forEach((id) => {
-    document.getElementById(id).addEventListener('change', settings);
+  ['demo', 'verify'].forEach((id) => {
+    document.getElementById(id).addEventListener('change', updateSettings);
+  });
+
+  ['target', 'syntax'].forEach((cls) => {
+    Array.from(document.getElementsByClassName(cls))
+      .forEach(elem => elem.addEventListener('change', updateSettings));
   });
 
   document.getElementById('info').addEventListener('click', info);

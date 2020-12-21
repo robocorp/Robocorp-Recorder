@@ -6,7 +6,8 @@ const { initializeTranslator } = require('../../src/translator/robot-translator'
 
 describe('seleniumlibrary-translator', () => {
   const target = 'SeleniumLibrary';
-  const translator = initializeTranslator(target);
+  const syntax = 'testing';
+  const translator = initializeTranslator(target, syntax);
   describe('generateOutput()', () => {
     let sandbox;
     before(() => { sandbox = sinon.sandbox.create(); });
@@ -38,7 +39,7 @@ Test Teardown     Close Browser
 \${BROWSER}    chromium
 \${SLEEP}    3
 \n*** Test Cases ***
-some_title test
+some_title Test
     ${events.join('\n    ')}`;
 
       const result = translator.generateFile([{ title: 'some_title' }], 1, true, true);

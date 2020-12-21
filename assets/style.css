@@ -16,7 +16,7 @@
 }
 
 #scan::before {
-    background-image: url("btn-scan.svg");
+    background-image: url("icon-target.svg");
 }
 
 #scan[disabled]::before {
@@ -50,11 +50,11 @@
 }
 
 #save::before {
-    background-image: url("btn-save.svg");
+    background-image: url("icon-download.svg");
 }
 
 #save[disabled]::before {
-    background-image: url("btn-save-disabled.svg");
+    background-image: url("icon-download-disabled.svg");
 }
 
 #copy::before {
@@ -121,7 +121,7 @@ html {
     float: right;
 }
 
-.btn {
+button {
     background: transparent;
     margin: 0px 3px 0 0;
     padding: 6px;
@@ -131,14 +131,14 @@ html {
     text-transform: uppercase;
 }
 
-.btn:disabled {
+button:disabled {
     color: #D2D2D2;
     border: 1px solid #E8E8E8;
 }
 
 button:active:hover {
     background-color: #3A3A3A;
-    border: 1px solid #3A3A3A;
+    border: 1px solid #6C50FA;
     color: #FFFDE7;
 }
 
@@ -150,7 +150,7 @@ button:disabled:hover {
 button:hover {
     cursor: pointer;
     z-index: 1;
-    border: 1px solid #E16F6F;
+    border: 1px solid #6C50FA;
 }
 
 button::before {
@@ -181,11 +181,11 @@ img {
 textarea {
     font-family: monospace;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 14px;
     min-width: 100%;
     min-height: 150px;
     padding: 0 4px;
-    background-color: #DEDEDE;
+    background-color: white;
     color: #474747;
     outline: none;
     border-radius: 1px;
@@ -254,7 +254,7 @@ input[type="checkbox"] {
 }
 
 .copy-ok, .copy-fail {
-    background-color: #474747;
+    background-color: transparent;
 }
 
 button.copy-ok:hover {
