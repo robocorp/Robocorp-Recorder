@@ -58,11 +58,11 @@ const logger = {
   }
 };
 
-host.runtime.onMessage.addListener((request, sender, sendResponse) => {
+host.runtime.onMessage.addListener((message, sender, sendResponse) => {
   storage.get('target', (items) => {
     const translator = initializeTranslator(items.target);
-    let { operation } = request;
-    host.runtime.getBackgroundPage(page => page.console.debug(request));
+    let { operation } = message;
+    host.runtime.getBackgroundPage(page => page.console.debug(message));
 
     if (operation === 'record') {
       icon.setIcon({ path: logo[operation] });
@@ -105,7 +105,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
           list = [{
             type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
           }];
-          content.sendMessage(tabs[0].id, { operation, locators: request.locators });
+          content.sendMessage(tabs[0].id, { operation, locators: message.locators });
         }
       });
       if (executed) {
@@ -136,7 +136,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
         filename
       });
     } else if (operation === 'settings') {
-      ({ demo, verify, target } = request);
+      ({ demo, verify, target } = message);
       storage.set({
         demo, verify, target
       });
@@ -147,19 +147,21 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } else if (operation === 'info') {
       host.tabs.create({ url });
     } else if (operation === 'action') {
-      if (request.script) {
-        selection(request.script);
+      if (message.script) {
+        selection(message.script);
         icon.setIcon({ path: logo[operation] });
         setTimeout(() => { icon.setIcon({ path: logo.record }); }, 1000);
       }
 
-      if (request.scripts) {
+      if (message.scripts) {
         icon.setIcon({ path: logo.stop });
-        list = list.concat(request.scripts);
+        list = list.concat(message.scripts);
         script = translator.generateOutput(list, maxLength, demo, verify);
 
         storage.set({ message: script, operation: 'stop', isBusy: false });
       }
     }
   });
+  // https://stackoverflow.com/a/56483156 lets chrome now that our callback succeeded
+  return true;
 });
