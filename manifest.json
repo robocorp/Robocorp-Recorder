@@ -29,14 +29,15 @@
     "all_frames": true
   }],
   "browser_action": {
-    "default_icon": "assets/icon-stop.png",
+    "default_icon": "assets/mark-128.png",
     "default_popup": "src/popup.html"
   },
   "icons": {
-    "16": "assets/logo-16.png",
-    "32": "assets/logo-32.png",
-    "48": "assets/logo-48.png",
-    "128": "assets/logo-128.png"
+    "16": "assets/mark-16.png",
+    "32": "assets/mark-32.png",
+    "48": "assets/mark-48.png",
+    "128": "assets/mark-128.png",
+    "256": "assets/mark-256.png"
   },
   "permissions": ["<all_urls>", "activeTab", "downloads", "storage"]
 }
