@@ -148,10 +148,6 @@ function info() {
   analytics(['_trackEvent', 'info', 'ℹ️']);
 }
 
-function like() {
-  analytics(['_trackEvent', 'like', '👍']);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   storage.get({
     message: 'Record or Scan',
@@ -184,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id).addEventListener('change', settings);
   });
 
-  document.getElementById('like').addEventListener('click', like);
   document.getElementById('info').addEventListener('click', info);
   document.getElementById('settings').addEventListener('click', toggle);
 }, false);

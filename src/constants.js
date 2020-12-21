@@ -5,9 +5,9 @@ const tab = { active: true, currentWindow: true };
 const logo = {
   stop: '/assets/icon-stop.png',
   record: '/assets/icon-record.png',
-  scan: '/assets/icon-stop.png',
+  scan: '/assets/stop.png',
   action: '/assets/icon-action.png',
-  pause: '/assets/icon-pause.png'
+  pause: '/assets/pause.svg'
 };
 
 const filename = 'robot_script.robot';

@@ -39,5 +39,5 @@
     "128": "assets/mark-128.png",
     "256": "assets/mark-256.png"
   },
-  "permissions": ["<all_urls>", "activeTab", "downloads", "storage"]
+  "permissions": ["activeTab", "downloads", "storage"]
 }
