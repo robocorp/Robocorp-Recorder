@@ -1,4 +1,4 @@
-# Robotcorder
+# RF Recorder
 
 ![Build Status](https://github.com/robocorp/Robotcorder/workflows/on-push%20jobs/badge.svg)
 
@@ -19,11 +19,11 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 1. Recording user actions
 2. Scanning the html page
 
-** New Features Robocorp (December 2020) ** 
+** New Features RF Recorder (December 2020) ** 
 Choose between generating locators for Robotframework Browser (playwright based) or SeleniumLibrary
 Choose between RPA or Test focused Robot Framework syntax
 
-** New Features (22 Sept 2018) **  
+** New Features (Robotcorder, 22 Sept 2018) **  
 Edit the locators.  
 go to chrome://extensions  
 click on Extension options  
