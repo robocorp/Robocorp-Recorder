@@ -6,7 +6,7 @@
 
 Fork based on https://github.com/sohwendy/Robotcorder
 
-See upstream
+For understanding and extending the generated scripts, see upstream
 - [robotframework-browser](https://robotframework-browser.org/) documentation
 - [SeleniumLibrary](https://robotframework.org/SeleniumLibrary/) documentation
 
