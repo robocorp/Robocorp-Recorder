@@ -15,21 +15,25 @@ For extra guides you can check out https://robocorp.com/docs/development-howtos/
 https://robocorp.com/docs/development-howtos/browser/playwright for playwright based Browser library documentation.
 
 ## Screenshots
+### Main view
 
-![Screenshot of the extension view](docs/screenshots/screenshot-68825b4.png)
-![Screenshot of the settings view](docs/screenshots/screenshot-settings.png)
+<img src="docs/screenshots/screenshot-68825b4.png" width="480" />
+
+### Settings
+
+<img src="docs/screenshots/screenshot-settings.png" width="480" />
 
 ## Features
 
 1. Recording user actions
 2. Scanning the html page
 
-** New Features RF Recorder (December 2020) ** 
+### New Features RF Recorder (December 2020)
 Choose between generating locators for Robotframework Browser (playwright based) or SeleniumLibrary
 Choose between RPA or Test focused Robot Framework syntax
 
-** New Features (Robotcorder, 22 Sept 2018) **  
-Edit the locators.  
+### New Features (Robotcorder, 22 Sept 2018)
+Edit the locators.
 go to chrome://extensions  
 click on Extension options  
 edit and update the locators
