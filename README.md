@@ -14,6 +14,11 @@ For understanding and extending the generated scripts, see upstream
 For extra guides you can check out https://robocorp.com/docs/development-howtos/browser for generic browser automation documentation and 
 https://robocorp.com/docs/development-howtos/browser/playwright for playwright based Browser library documentation.
 
+## Screenshots
+
+![Screenshot of the extension view](docs/screenshots/screenshot-68825b4.png)
+![Screenshot of the settings view](docs/screenshots/screenshot-settings.png)
+
 ## Features
 
 1. Recording user actions
