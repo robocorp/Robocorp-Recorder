@@ -35,7 +35,7 @@ click on Extension options
 edit and update the locators
 
 ## Download
-Coming to chrome web store
+Coming to chrome web store soon. For now see https://github.com/robocorp/Robotcorder/releases for manual installation of latest release.
 <!--  [Robotcorder - Chrome Web Store](https://chrome.google.com/webstore/detail/robotcorder/ifiilbfgcemdapeibjfohnfpfmfblmpd) 
 -->
 
