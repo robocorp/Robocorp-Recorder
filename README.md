@@ -19,10 +19,6 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 1. Recording user actions
 2. Scanning the html page
 
-[Read more..](http://bit.ly/robotcorder-blog)
-
-[Watch it in action!](http://bit.ly/robotcorder-video)
-
 ** New Features Robocorp (December 2020) ** 
 Choose between generating locators for Robotframework Browser (playwright based) or SeleniumLibrary
 Choose between RPA or Test focused Robot Framework syntax
@@ -53,7 +49,7 @@ or
 ## Change Log
 Refer to [CHANGELOG.md](https://github.com/robocorp/Robotcorder/blob/master/CHANGELOG.md)
 
-
+<!--
 ## Github Pages
 Found in /docs.
 Refer to [Robotcorder-Page](https://sohwendy.github.io/Robotcorder-Page/) for instruction how to update github page.
@@ -67,5 +63,6 @@ Refer to [Robotcorder-Page](https://sohwendy.github.io/Robotcorder-Page/) for in
 [![forthebadge](https://forthebadge.com/images/badges/does-not-contain-msg.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-water.svg)](https://forthebadge.com)
 
+-->
 
 
