@@ -19,8 +19,8 @@ const statusMessage = {
   failed: "Operation failed. Please try refreshing. If it doesn't help, the active tab might not support recording.",
 };
 
-const instruction = `RF Recorder
+const instruction = `Robocorp Recorder
   Generate a Robot Framework automation script by
   * Recording actions
   * Scanning the page for automatable inputs
-   Automating automation 🤗`;
+   Automating automation 🤖`;
