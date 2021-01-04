@@ -9,7 +9,7 @@ const storage = host.storage.local;
 const content = host.tabs;
 const icon = host.browserAction;
 const maxLength = 5000;
-let recordTab = 0;
+const recordTab = 0;
 let demo = false;
 let verify = false;
 let target = 'SeleniumLibrary';
@@ -59,54 +59,41 @@ const logger = {
   }
 };
 
-host.runtime.onMessage.addListener((message, sender, sendResponse) => {
+const handleMessage = ((message, tab, _sender, _sendResponse) => {
   storage.get(['target', 'syntax'], (items) => {
     const translator = initializeTranslator(items.target, items.syntax);
     let { operation } = message;
-    host.runtime.getBackgroundPage(page => page.console.debug(message));
+    host.runtime.getBackgroundPage((page) => {
+      page.console.debug(operation);
+    });
 
     if (operation === 'record') {
       icon.setIcon({ path: logo[operation] });
-
-      content.query(tab, (tabs) => {
-        [recordTab] = tabs;
-        list = [{
-          type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
-        }];
-        content.sendMessage(tabs[0].id, { operation });
-      });
-
+      list = [{
+        type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
+      }];
+      content.sendMessage(tab.id, { operation });
       storage.set({ message: statusMessage[operation], operation, canSave: false });
     } else if (operation === 'pause') {
       icon.setIcon({ path: logo.pause });
 
-      content.query(tab, (tabs) => {
-        content.sendMessage(tabs[0].id, { operation: 'stop' });
-      });
+      content.sendMessage(tab.id, { operation: 'stop' });
       storage.set({ operation: 'pause', canSave: false, isBusy: false });
     } else if (operation === 'resume') {
       operation = 'record';
 
       icon.setIcon({ path: logo[operation] });
-
-      content.query(tab, (tabs) => {
-        [recordTab] = tabs;
-        content.sendMessage(tabs[0].id, { operation });
-      });
-
+      content.sendMessage(tab.id, { operation });
       storage.set({ message: statusMessage[operation], operation, canSave: false });
     } else if (operation === 'scan') {
       let executed = false;
-      content.query({ active: true }, (tabs) => {
-        if (tabs) {
-          executed = true;
-          [recordTab] = tabs;
-          list = [{
-            type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
-          }];
-          content.sendMessage(tabs[0].id, { operation, locators: message.locators });
-        }
-      });
+      if (tab) {
+        executed = true;
+        list = [{
+          type: 'url', path: tab.url, time: 0, trigger: 'scan', title: tab.title
+        }];
+        content.sendMessage(tab.id, { operation, locators: message.locators });
+      }
       if (executed) {
         storage.set({
           message: statusMessage[operation], operation: 'scan', canSave: true, isBusy: true
@@ -117,13 +104,10 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
       }
     } else if (operation === 'stop') {
-      recordTab = 0;
       icon.setIcon({ path: logo[operation] });
 
       script = translator.generateOutput(list, maxLength, demo, verify);
-      content.query(tab, (tabs) => {
-        content.sendMessage(tabs[0].id, { operation: 'stop' });
-      });
+      content.sendMessage(tab.id, { operation: 'stop' });
 
       storage.set({ message: script, operation, canSave: true });
     } else if (operation === 'save') {
@@ -144,10 +128,10 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
     } else if (operation === 'load') {
       storage.get({ operation: 'stop', locators: [] }, (state) => {
-        content.sendMessage(sender.tab.id, { operation: state.operation, locators: state.locators });
+        content.sendMessage(tab.id, { operation: state.operation, locators: state.locators });
       });
     } else if (operation === 'info') {
-      host.tabs.create({ url });
+      tab.create({ url });
     } else if (operation === 'action') {
       if (message.script) {
         selection(message.script);

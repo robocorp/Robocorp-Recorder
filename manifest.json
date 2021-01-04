@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "RF Recorder",
-  "version": "0.2.0",
+  "name": "Robocorp Recorder",
+  "version": "0.3.0",
   "homepage_url": "https://github.com/robocorp/Robotcorder",
   "description": "A browser extension that records user action and scans the page to generate RobotFramework scripts",
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
@@ -14,20 +14,6 @@
     "persistent": true
   },
   "options_page": "./src/options.html",
-  "content_scripts": [{
-    "matches": [
-      "<all_urls>"
-    ],
-    "js": [
-      "./src/locator/xpath-locator.js",
-      "./src/locator/tree-builder.js",
-      "./src/locator/classifier.js",
-      "./src/locator/scanner.js",
-      "./src/content.js"
-    ],
-    "run_at": "document_end",
-    "all_frames": true
-  }],
   "browser_action": {
     "default_icon": "assets/mark-128.png",
     "default_popup": "src/popup.html"

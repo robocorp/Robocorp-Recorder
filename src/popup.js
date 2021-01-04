@@ -1,4 +1,4 @@
-/* global document $ chrome ClipboardJS */
+/* global document $ chrome ClipboardJS handleMessage */
 const debug = false;
 const host = chrome;
 const storage = host.storage.local;
@@ -84,39 +84,39 @@ function enable(array, isEnabled) {
   });
 }
 
-function toggle(e) {
-  logger.debug(e.target.id);
-  if (e.target.id === 'record') {
+function toggle(targetId, canSave, demo, verify, target, syntax) {
+  logger.debug(targetId);
+  if (targetId === 'record') {
     show(['stop', 'pause'], true);
     show(['record', 'resume', 'scan'], false);
     enable(['settings-panel'], false);
-  } else if (e.target.id === 'pause') {
+  } else if (targetId === 'pause') {
     show(['resume', 'stop'], true);
     show(['record', 'scan', 'pause'], false);
     enable(['settings-panel'], false);
-  } else if (e.target.id === 'resume') {
+  } else if (targetId === 'resume') {
     show(['pause', 'stop'], true);
     show(['record', 'scan', 'resume'], false);
     enable(['settings-panel'], false);
-  } else if ((e.target.id === 'stop') || (e.target.id === 'scan')) {
+  } else if ((targetId === 'stop') || (targetId === 'scan')) {
     show(['record', 'scan'], true);
     show(['resume', 'stop', 'pause'], false);
     enable(['settings-panel'], true);
-  } else if (e.target.id === 'settings') {
+  } else if (targetId === 'settings') {
     analytics(['_trackEvent', 'settings', '⚙️']);
     document.getElementById('settings-panel').classList.toggle('hidden');
   }
 
-  if ((e.canSave === false) || (e.target.id === 'record')) {
+  if ((canSave === false) || (targetId === 'record')) {
     document.getElementById('save').disabled = true;
-  } else if ((e.canSave === true) || (e.target.id === 'scan') || (e.target.id === 'stop')) {
+  } else if ((canSave === true) || (targetId === 'scan') || (targetId === 'stop')) {
     document.getElementById('save').disabled = false;
   }
-  if (e.demo) { document.getElementById('demo').checked = e.demo; }
-  if (e.verify) { document.getElementById('verify').checked = e.verify; }
+  if (demo) { document.getElementById('demo').checked = demo; }
+  if (verify) { document.getElementById('verify').checked = verify; }
   // This is necessary to let the old settings show when user re-opens the settings modal
-  if (e.target) { /* FIXME: select corresponding radio here */ }
-  if (e.syntax) { /* FIXME: select corresponding radio here */ }
+  if (target) { /* FIXME: select corresponding radio here */ }
+  if (syntax) { /* FIXME: select corresponding radio here */ }
 }
 
 function busy(e) {
@@ -128,8 +128,9 @@ function busy(e) {
 }
 
 function operation(e) {
-  toggle(e);
-  host.runtime.sendMessage({ operation: e.target.id }, display);
+  toggle(e.target.id, e.canSave, e.demo, e.target, e.syntax);
+  handleMessage({ operation: e.target.id });
+  // host.runtime.sendMessage({ operation: e.target.id }, display);
 
   analytics(['_trackEvent', e.target.id, '^-^']);
 }
@@ -198,6 +199,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('info').addEventListener('click', info);
   document.getElementById('settings').addEventListener('click', toggle);
 }, false);
+
+host.contextMenus.onClicked.addListener((clickInfo, tab) => {
+  const buttonId = clickInfo.menuItemId;
+  switch (buttonId) {
+    case 'record' || 'resume' || 'stop' || 'pause' || 'save' || 'scan':
+      operation({ target: { id: buttonId } });
+      return;
+    default:
+      throw new Error();
+  }
+});
 
 host.storage.onChanged.addListener((changes, _) => {
   for (const key in changes) {
