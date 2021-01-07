@@ -1,4 +1,4 @@
-# RF Recorder
+# Robocorp Recorder
 
 ![Build Status](https://github.com/robocorp/Robotcorder/workflows/on-push%20jobs/badge.svg)
 
@@ -6,10 +6,18 @@
 
 Fork based on https://github.com/sohwendy/Robotcorder
 
+## How-to
+
+### Using the extension itself
+
+
+### Understanding and extending the generated "script templates"
+
 For understanding and extending the generated scripts, see upstream
 - [robotframework-browser](https://robotframework-browser.org/) documentation
 - [SeleniumLibrary](https://robotframework.org/SeleniumLibrary/) documentation
 
+For understanding the XPATH selectors see [Xpath Cheatsheet](https://devhints.io/xpath)
 
 For extra guides you can check out https://robocorp.com/docs/development-howtos/browser for generic browser automation documentation and 
 https://robocorp.com/docs/development-howtos/browser/playwright for playwright based Browser library documentation.
@@ -17,11 +25,11 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 ## Screenshots
 ### Main view
 
-<img src="docs/screenshots/screenshot-68825b4.png" width="480" />
+<img src="robocorp-assets/main-view-07012021.png" width="480" />
 
 ### Settings
 
-<img src="docs/screenshots/screenshot-settings.png" width="480" />
+<img src="robocorp-assets/settings-view-07012021.png" width="480" />
 
 ## Features
 
