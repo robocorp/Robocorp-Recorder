@@ -33,19 +33,18 @@
         scan
       </button>
 
-      <button class="btn btn-wide" id="save" tabindex="-1" disabled title="download test script">
-        save
+      <button class="btn" id="xpath-console" tabindex="-1" title="show/hide xpath console">
+        XPath
       </button>
     </span>
 
     <span class="btn-thin">
-      <button class="btn" id="copy" tabindex="-1" title="copy to clipboard" data-clipboard-target="#textarea-script"></button>
       <button class="btn" id="settings" tabindex="-1" title="show/hide settings"></button>
       <button class="btn" id="info" tabindex="-1" title="open instructions in another tab"></button>
     </span>
   </div>
 
-  <div id="settings-panel" class="pad hidden">
+  <div id="settings-panel" class="hidden">
     <div class="panel-row">
       <div>
         <p> Target Library </p>
@@ -70,19 +69,32 @@
         </div>
       </div>
       <div>
-        <input type="checkbox" id="demo" />
-        <label for="demo"> Add a 3s sleep after each action (for demo) </label>
+        <p> Extra settings </p>
+        <div>
+          <input type="checkbox" id="demo" />
+          <label for="demo"> Add a 3s sleep after each action (for demo) </label>
+        </div>
+        <div>
+          <input type="checkbox" id="verify" />
+          <label for="verify">Check page contains element before performing the action</label>
+        </div>
       </div>
-      <div>
-        <input type="checkbox" id="verify" />
-        <label for="verify">Check page contains element before performing the action</label>
-      </div>
-
     </div>
   </div>
 
   <div class="pad">
     <textarea id="textarea-script" tabindex="-1" readonly title="steps"></textarea>
+  </div>
+
+  <div>
+    <input type="text" id="textinput-xpath" tabindex="-1" title="xpath expression" class="hidden horizontal-pad"></input>
+  </div>
+
+  <div>
+    <button class="btn btn-wide" id="save" tabindex="-1" disabled title="download test script">
+      save
+    </button>
+    <button class="btn" id="copy" tabindex="-1" title="copy to clipboard" data-clipboard-target="#textarea-script" disabled></button>
   </div>
 
   <div class="pad">

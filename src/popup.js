@@ -77,6 +77,10 @@ function show(array, visible) {
   });
 }
 
+function hide(array) {
+  show(array, false);
+}
+
 function enable(array, isEnabled) {
   array.forEach((id) => {
     const element = document.getElementById(id);
@@ -88,23 +92,27 @@ function toggle(e) {
   logger.debug(e.target.id);
   if (e.target.id === 'record') {
     show(['stop', 'pause'], true);
-    show(['record', 'resume', 'scan'], false);
+    hide(['record', 'resume', 'scan', 'xpath']);
     enable(['settings-panel'], false);
   } else if (e.target.id === 'pause') {
     show(['resume', 'stop'], true);
-    show(['record', 'scan', 'pause'], false);
+    hide(['record', 'scan', 'pause', 'xpath']);
     enable(['settings-panel'], false);
   } else if (e.target.id === 'resume') {
     show(['pause', 'stop'], true);
-    show(['record', 'scan', 'resume'], false);
+    hide(['record', 'scan', 'resume']);
     enable(['settings-panel'], false);
   } else if ((e.target.id === 'stop') || (e.target.id === 'scan')) {
     show(['record', 'scan'], true);
-    show(['resume', 'stop', 'pause'], false);
+    hide(['resume', 'stop', 'pause']);
     enable(['settings-panel'], true);
   } else if (e.target.id === 'settings') {
     analytics(['_trackEvent', 'settings', '⚙️']);
+    document.getElementById('textarea-script').classList.toggle('hidden');
     document.getElementById('settings-panel').classList.toggle('hidden');
+  } else if (e.target.id === 'xpath-console') {
+    document.getElementById('textarea-script').classList.toggle('hidden');
+    document.getElementById('textinput-xpath').classList.toggle('hidden');
   }
 
   if ((e.canSave === false) || (e.target.id === 'record')) {
@@ -121,7 +129,7 @@ function toggle(e) {
 
 function busy(e) {
   if ((e.isBusy === true) || (e.isBusy === false)) {
-    ['scan', 'record', 'stop', 'save', 'save', 'resume'].forEach((id) => {
+    ['scan', 'record', 'stop', 'save', 'save', 'copy', 'resume'].forEach((id) => {
       document.getElementById(id).disabled = e.isBusy;
     });
   }
@@ -197,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('info').addEventListener('click', info);
   document.getElementById('settings').addEventListener('click', toggle);
+  document.getElementById('xpath-console').addEventListener('click', toggle);
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {
