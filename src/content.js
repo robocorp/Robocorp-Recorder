@@ -1,4 +1,4 @@
-/* global document chrome scanner */
+/* global document chrome scanner XPathResult */
 
 const host = chrome;
 let strategyList = [];
@@ -45,6 +45,50 @@ function recordClick(event) {
   }
 }
 
+function xpathValidation(xpath) {
+  // TODO: when creating new xpath highlights clear old ones
+  let xpathResult;
+  try {
+    xpathResult = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
+  } catch (error) {
+    host.runtime.sendMessage({ operation: 'display', message: error.toString() });
+    console.debug(error);
+  }
+  if (!xpathResult) return;
+  host.runtime.sendMessage({ operation: 'display', message: `XPath is valid, matches: ${xpathResult.snapshotLength}` });
+  console.debug(xpathResult);
+  const options = {
+    dur: 5000,
+    wdt: '2px',
+    stl: 'dotted',
+    clr: '#6C50FA'
+  };
+  for (let i = 0; i < xpathResult.snapshotLength; i++) {
+    const node = xpathResult.snapshotItem(i);
+    console.debug(node);
+    node.style.backgroundColor = '#FDFF47';
+    const e = node.nodeValue;
+    if (e) {
+      const d = document.createElement('div');
+      d.className = 'robocorp-recorder-highlight';
+      d.appendChild(document.createTextNode(''));
+      d.style.position = 'fixed';
+      const rect = e.getBoundingClientRect();
+      d.style.top = `${rect.top}px`;
+      d.style.left = `${rect.left}px`;
+      d.style.width = `${rect.width}px`;
+      d.style.height = `${rect.height}px`;
+      d.style.border = `${options.wdt || '1px'} ${options.stl || 'dotted'} ${options.clr || 'blue'}`;
+      document.body.appendChild(d);
+      setTimeout(() => {
+        d.remove();
+      }, options.dur || 5000);
+    } else {
+      console.debug('Could not get .nodevalue of ', node);
+    }
+  }
+}
+
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('Tab received message: ', request);
   if (request.operation === 'record') {
@@ -64,5 +108,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
     scanner.limit = 1000;
     const array = scanner.parseNodes([], document.body, strategyList);
     host.runtime.sendMessage({ operation: 'action', scripts: array });
+  } else if (request.operation === 'xpath-validate') {
+    xpathValidation(request.xpath);
   }
 });

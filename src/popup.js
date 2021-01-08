@@ -70,11 +70,12 @@ function display(message) {
   }
 }
 
-function show(array, visible) {
-  array.forEach((id) => {
-    const element = document.getElementById(id);
-    if (!element) console.log('Tried to toggle visibility of element with id: ', id);
-    visible ? element.classList.remove('hidden') : element.classList.add('hidden');
+function show(ids, visible) {
+  const elements = ids.map(id => document.getElementById(id));
+
+  elements.forEach((elem) => {
+    if (elem) visible ? elem.classList.remove('hidden') : elem.classList.add('hidden');
+    else console.log('Tried to toggle visibility of non-existent element');
   });
 }
 
@@ -91,30 +92,27 @@ function enable(array, isEnabled) {
 
 function toggle(e) {
   logger.debug(e.target.id);
-  if (e.target.id === 'nonrecord') {
-    /* For some reason when this is the branch for recording it does not work */
-    show(['stop', 'pause'], true);
-    hide(['record', 'resume', 'scan', 'xpath']);
+  // Hide all buttons by default and explicitly show buttons to show
+  if (e.target.id !== 'clear-script') {
+    hide(['record', 'scan', 'pause', 'xpath-console', 'resume', 'stop', 'save', 'copy', 'clear-script']);
     enable(['settings-panel'], false);
-  } else if (e.target.id === 'pause') {
-    show(['resume', 'stop'], true);
-    hide(['record', 'scan', 'pause', 'xpath']);
-    enable(['settings-panel'], false);
+  }
+
+  if (e.target.id === 'pause') {
+    show(['resume', 'stop']);
   } else if (e.target.id === 'resume' || e.target.id === 'record') {
     show(['pause', 'stop'], true);
-    hide(['record', 'scan', 'resume']);
-    enable(['settings-panel'], false);
   } else if ((e.target.id === 'stop') || (e.target.id === 'scan')) {
-    show(['record', 'scan'], true);
-    hide(['resume', 'stop', 'pause']);
+    show(['record', 'scan', 'xpath-console', 'copy', 'save', 'clear-script'], true);
     enable(['settings-panel'], true);
   } else if (e.target.id === 'settings') {
     analytics(['_trackEvent', 'settings', '⚙️']);
     document.getElementById('textarea-script').classList.toggle('hidden');
     document.getElementById('settings-panel').classList.toggle('hidden');
   } else if (e.target.id === 'xpath-console') {
-    document.getElementById('textarea-script').classList.toggle('hidden');
-    document.getElementById('textinput-xpath').classList.toggle('hidden');
+    show(['record', 'scan', 'xpath-console'], true);
+    // document.getElementById('textarea-script').classList.toggle('hidden');
+    document.getElementById('xpath-inputs').classList.toggle('hidden');
   }
 
   if ((e.canSave === false) || (e.target.id === 'record')) {
@@ -144,6 +142,11 @@ function operation(e) {
   host.runtime.sendMessage({ operation: e.target.id }, display);
 
   analytics(['_trackEvent', e.target.id, '^-^']);
+}
+
+function xpathValidate(event) {
+  const xpath = document.getElementById('textinput-xpath').value;
+  host.runtime.sendMessage({ operation: 'xpath-validate', xpath });
 }
 
 function updateSettings(e) {
@@ -217,6 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Array.from(document.getElementsByClassName(cls))
       .forEach(elem => elem.addEventListener('change', updateSettings));
   });
+
+  document.getElementById('textinput-xpath').addEventListener('input', xpathValidate);
 
   // document.getElementById('info').addEventListener('click', info);
   // document.getElementById('settings').addEventListener('click', toggle);

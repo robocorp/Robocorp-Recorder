@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Robotcorder</title>
+  <title>Robocorp Recorder</title>
   <link async rel="stylesheet" type="text/css" href="../vendors/jquery-ui.min.css"/>
   <link async rel="stylesheet" type="text/css" href="../assets/style.css">
   <script src="../vendors/jquery-3.3.1.min.js"></script>
@@ -86,8 +86,13 @@
     <textarea id="textarea-script" tabindex="-1" readonly title="steps"></textarea>
   </div>
 
-  <div>
-    <input type="text" id="textinput-xpath" tabindex="-1" title="xpath expression" class="hidden horizontal-pad"></input>
+  <div class="hidden" id="xpath-inputs" >
+    <input type="text" id="textinput-xpath" tabindex="-1" title="xpath expression" class="horizontal-pad" placeholder="//xpath-to-validate"></input>
+    <!--
+      <button class="btn btn-wide" id="validate-xpath" tabindex="-1" title="validate xpath">
+      validate
+    </button>
+    -->
   </div>
 
   <div>

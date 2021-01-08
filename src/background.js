@@ -95,21 +95,19 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         storage.set({ message: statusMessage[operation], operation, canSave: false });
       });
     } else if (operation === 'scan') {
-      content.query({ active: true }, (tabs) => {
-        if (tabs) {
-          list = [{
-            type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
-          }];
-          content.sendMessage(recordTab.id, { operation, locators: message.locators });
-          storage.set({
-            message: statusMessage.scan, operation: 'scan', canSave: true, isBusy: false
-          });
-        } else {
-          storage.set({
-            message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
-          });
-        }
-      });
+      if (recordTab) {
+        list = [{
+          type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
+        }];
+        content.sendMessage(recordTab.id, { operation, locators: message.locators });
+        storage.set({
+          message: statusMessage.scan, operation: 'scan', canSave: true, isBusy: false
+        });
+      } else {
+        storage.set({
+          message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
+        });
+      }
     } else if (operation === 'stop') {
       icon.setIcon({ path: logo[operation] });
 
@@ -156,8 +154,13 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
     } else if (operation === 'clear-script') {
       list = [];
       storage.set({ message: 'Cleared', canSave: false });
+    } else if (operation === 'xpath-validate') {
+      content.sendMessage(recordTab.id, { operation: 'xpath-validate', xpath: message.xpath });
+    } else if (operation === 'display') {
+      storage.set({ message: message.message });
     }
   });
-  // https://stackoverflow.com/a/56483156 lets chrome now that our callback succeeded
-  return false;
+  // https://github.com/mozilla/webextension-polyfill/issues/130 lets chrome now that our callback succeeded
+  sendResponse({});
+  return Promise.resolve('This should not show in console');
 });
