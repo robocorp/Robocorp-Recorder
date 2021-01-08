@@ -8,6 +8,7 @@
       "max-len": ["error", {"code":120, "comments": 120}],
       "no-template-curly-in-string": "off",
       "no-plusplus": "off",
-      "guard-for-in": "off"
+      "guard-for-in": "off",
+      "prefer-destructuring": "off"
     }
 }

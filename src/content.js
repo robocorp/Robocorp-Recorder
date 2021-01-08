@@ -26,24 +26,27 @@ function handleByChange(type) {
 }
 
 function recordChange(event) {
+  console.log('Tab recorded event: ', event);
   const attr = scanner.parseNode(getTime(), event.target, strategyList);
 
   if (handleByChange(attr.type)) {
     Object.assign(attr, { trigger: 'change' });
-    host.runtime.sendMessage({ operation: 'action', script: attr });
+    host.runtime.sendMessage({ operation: 'append', script: attr });
   }
 }
 
 function recordClick(event) {
+  console.log('Tab recorded event: ', event);
   const attr = scanner.parseNode(getTime(), event.target, strategyList);
 
   if (!handleByChange(attr.type)) {
     Object.assign(attr, { trigger: 'click' });
-    host.runtime.sendMessage({ operation: 'action', script: attr });
+    host.runtime.sendMessage({ operation: 'append', script: attr });
   }
 }
 
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('Tab received message: ', request);
   if (request.operation === 'record') {
     strategyList = request.locators || [];
     strategyList.push('index');

@@ -66,13 +66,14 @@ clipboard.on('error', (e) => {
 function display(message) {
   if (message && message.message) {
     const field = document.querySelector('#textarea-script');
-    field.value = message.message || '';
+    field.value = message.message;
   }
 }
 
 function show(array, visible) {
   array.forEach((id) => {
     const element = document.getElementById(id);
+    if (!element) console.log('Tried to toggle visibility of element with id: ', id);
     visible ? element.classList.remove('hidden') : element.classList.add('hidden');
   });
 }
@@ -90,7 +91,8 @@ function enable(array, isEnabled) {
 
 function toggle(e) {
   logger.debug(e.target.id);
-  if (e.target.id === 'record') {
+  if (e.target.id === 'nonrecord') {
+    /* For some reason when this is the branch for recording it does not work */
     show(['stop', 'pause'], true);
     hide(['record', 'resume', 'scan', 'xpath']);
     enable(['settings-panel'], false);
@@ -98,7 +100,7 @@ function toggle(e) {
     show(['resume', 'stop'], true);
     hide(['record', 'scan', 'pause', 'xpath']);
     enable(['settings-panel'], false);
-  } else if (e.target.id === 'resume') {
+  } else if (e.target.id === 'resume' || e.target.id === 'record') {
     show(['pause', 'stop'], true);
     hide(['record', 'scan', 'resume']);
     enable(['settings-panel'], false);
@@ -117,8 +119,10 @@ function toggle(e) {
 
   if ((e.canSave === false) || (e.target.id === 'record')) {
     document.getElementById('save').disabled = true;
-  } else if ((e.canSave === true) || (e.target.id === 'scan') || (e.target.id === 'stop')) {
+    document.getElementById('copy').disabled = true;
+  } else if ((e.canSave === true) && (e.target.id === 'scan' || e.target.id === 'stop')) {
     document.getElementById('save').disabled = false;
+    document.getElementById('copy').disabled = false;
   }
   if (e.demo) { document.getElementById('demo').checked = e.demo; }
   if (e.verify) { document.getElementById('verify').checked = e.verify; }
@@ -169,7 +173,7 @@ function info() {
 document.addEventListener('DOMContentLoaded', () => {
   storage.get({
     message: 'Record or Scan',
-    operation: 'stop',
+    operation: 'idle',
     canSave: false,
     isBusy: false,
     demo: false,
@@ -190,7 +194,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   debug ? document.getElementById('textarea-log').classList.remove('hidden') : 0;
 
-  ['record', 'resume', 'stop', 'pause', 'save', 'scan'].forEach((id) => {
+  [
+    'record',
+    'resume',
+    'stop',
+    'pause',
+    'save',
+    'scan',
+    'xpath-console',
+    'settings',
+    'info',
+    'clear-script',
+  ].forEach((id) => {
     document.getElementById(id).addEventListener('click', operation);
   });
 
@@ -203,9 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .forEach(elem => elem.addEventListener('change', updateSettings));
   });
 
-  document.getElementById('info').addEventListener('click', info);
-  document.getElementById('settings').addEventListener('click', toggle);
-  document.getElementById('xpath-console').addEventListener('click', toggle);
+  // document.getElementById('info').addEventListener('click', info);
+  // document.getElementById('settings').addEventListener('click', toggle);
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {

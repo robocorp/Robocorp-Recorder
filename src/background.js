@@ -60,72 +60,67 @@ const logger = {
 };
 
 host.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  recordTab = sender.tab || message.recordTab || recordTab;
+  content.query({ active: true }, (tabs) => {
+    recordTab = tabs[0];
+  });
   storage.get(['target', 'syntax'], (items) => {
     const translator = initializeTranslator(items.target, items.syntax);
     let { operation } = message;
     host.runtime.getBackgroundPage(page => page.console.debug(message));
 
     if (operation === 'record') {
+      list = [];
       icon.setIcon({ path: logo[operation] });
 
-      content.query(tab, (tabs) => {
-        [recordTab] = tabs;
-        list = [{
-          type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
-        }];
-        content.sendMessage(tabs[0].id, { operation });
-      });
-
+      list = [{
+        type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
+      }];
+      content.sendMessage(recordTab.id, { operation });
       storage.set({ message: statusMessage[operation], operation, canSave: false });
     } else if (operation === 'pause') {
       icon.setIcon({ path: logo.pause });
 
       content.query(tab, (tabs) => {
-        content.sendMessage(tabs[0].id, { operation: 'stop' });
+        content.sendMessage(recordTab.id, { operation: 'stop' });
+        storage.set({ operation: 'pause', canSave: false, isBusy: false });
       });
-      storage.set({ operation: 'pause', canSave: false, isBusy: false });
     } else if (operation === 'resume') {
       operation = 'record';
 
       icon.setIcon({ path: logo[operation] });
 
       content.query(tab, (tabs) => {
-        [recordTab] = tabs;
-        content.sendMessage(tabs[0].id, { operation });
+        content.sendMessage(recordTab.id, { operation });
+        storage.set({ message: statusMessage[operation], operation, canSave: false });
       });
-
-      storage.set({ message: statusMessage[operation], operation, canSave: false });
     } else if (operation === 'scan') {
-      let executed = false;
       content.query({ active: true }, (tabs) => {
         if (tabs) {
-          executed = true;
-          [recordTab] = tabs;
           list = [{
             type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
           }];
-          content.sendMessage(tabs[0].id, { operation, locators: message.locators });
+          content.sendMessage(recordTab.id, { operation, locators: message.locators });
+          storage.set({
+            message: statusMessage.scan, operation: 'scan', canSave: true, isBusy: false
+          });
+        } else {
+          storage.set({
+            message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
+          });
         }
       });
-      if (executed) {
-        storage.set({
-          message: statusMessage[operation], operation: 'scan', canSave: true, isBusy: true
-        });
-      } else {
-        storage.set({
-          message: statusMessage.failed, operation: 'scan', canSave: false, isBusy: false
-        });
-      }
     } else if (operation === 'stop') {
-      recordTab = 0;
       icon.setIcon({ path: logo[operation] });
 
       script = translator.generateOutput(list, maxLength, demo, verify);
-      content.query(tab, (tabs) => {
-        content.sendMessage(tabs[0].id, { operation: 'stop' });
-      });
-
-      storage.set({ message: script, operation, canSave: true });
+      if (script) {
+        storage.set({ message: script, operation, canSave: true });
+        content.sendMessage(recordTab.id, { operation: 'stop' });
+      } else {
+        storage.set({ message: statusMessage.failedRecord, operation, canSave: false },
+          () => content.sendMessage(recordTab.id, { operation: 'stop' }));
+      }
     } else if (operation === 'save') {
       const file = translator.generateFile(list, maxLength, demo, verify);
       logger.debug(file);
@@ -148,20 +143,19 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
     } else if (operation === 'info') {
       host.tabs.create({ url });
+    } else if (operation === 'append') {
+      selection(message.script);
+      icon.setIcon({ path: logo.action });
+      setTimeout(() => { icon.setIcon({ path: logo.record }); }, 1000);
     } else if (operation === 'action') {
-      if (message.script) {
-        selection(message.script);
-        icon.setIcon({ path: logo[operation] });
-        setTimeout(() => { icon.setIcon({ path: logo.record }); }, 1000);
-      }
+      icon.setIcon({ path: logo.stop });
+      list = list.concat(message.scripts);
+      script = translator.generateOutput(list, maxLength, demo, verify);
 
-      if (message.scripts) {
-        icon.setIcon({ path: logo.stop });
-        list = list.concat(message.scripts);
-        script = translator.generateOutput(list, maxLength, demo, verify);
-
-        storage.set({ message: script, operation: 'stop', isBusy: false });
-      }
+      storage.set({ message: script, operation: 'stop', isBusy: false });
+    } else if (operation === 'clear-script') {
+      list = [];
+      storage.set({ message: 'Cleared', canSave: false });
     }
   });
   // https://stackoverflow.com/a/56483156 lets chrome now that our callback succeeded

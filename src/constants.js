@@ -16,7 +16,8 @@ const statusMessage = {
   stop: 'Stopped',
   record: 'Recording action...',
   scan: 'Scanning html document...',
-  failed: "Operation failed. Please try refreshing. If it doesn't help, the active tab might not support recording.",
+  failedScan: "Scan failed. Please try refreshing. If it doesn't help, the active tab might not support recording.",
+  failedRecord: 'Did not record any operations',
 };
 
 const instruction = `Robocorp Recorder
