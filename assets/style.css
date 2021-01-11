@@ -184,18 +184,21 @@ img {
     cursor: pointer;
 }
 
-textarea {
+#script-container {
+    background-color: #2E343F;
+}
+
+#script-output {
     font-family: monospace;
-    font-weight: 300;
-    font-size: 14px;
+    /* font-weight: 300;
+    font-size: 14px;*/
+    color: #f8f8f2;
     min-width: 100%;
     min-height: 150px;
     padding: 0 4px;
-    background-color: white;
-    color: #474747;
     outline: none;
-    border-radius: 1px;
-    border: 1px solid #BBBBBB;
+    /* border-radius: 1px;
+     border: 1px solid #BBBBBB; */
     box-sizing: border-box;
 }
 

@@ -9,6 +9,7 @@
       "no-template-curly-in-string": "off",
       "no-plusplus": "off",
       "guard-for-in": "off",
-      "prefer-destructuring": "off"
+      "prefer-destructuring": "off",
+      "no-else-return": ["warn", {"allowElseIf": true}]
     }
 }

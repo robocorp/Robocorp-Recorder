@@ -63,12 +63,21 @@ clipboard.on('error', (e) => {
   logger.error('Trigger:', e.trigger);
 });
 
-function display(message) {
-  if (message && message.message) {
-    const field = document.querySelector('#textarea-script');
-    field.value = message.message;
+function updateValueByMessage(elementId, message) {
+  if (message) {
+    const field = document.querySelector(elementId);
+    field.innerText = message.toString();
   }
 }
+
+function displayScript(message) {
+  updateValueByMessage('#script-output', message);
+}
+
+function displayStatus(message) {
+  updateValueByMessage('#status-field', message);
+}
+
 
 function show(ids, visible) {
   const elements = ids.map(id => document.getElementById(id));
@@ -111,11 +120,11 @@ function toggle(e) {
     enable(['settings-panel'], true);
   } else if (e.target.id === 'settings') {
     show(['record', 'scan', 'xpath-console'], true);
-    toggleHidden('textarea-script');
+    toggleHidden('script-output');
     toggleHidden('settings-panel');
   } else if (e.target.id === 'xpath-console') {
     show(['record', 'scan', 'xpath-console'], true);
-    toggleHidden('textarea-script');
+    toggleHidden('script-output');
     toggleHidden('xpath-inputs');
   }
 
@@ -143,7 +152,7 @@ function busy(e) {
 
 function operation(e) {
   toggle(e);
-  host.runtime.sendMessage({ operation: e.target.id }, display);
+  host.runtime.sendMessage({ operation: e.target.id }, displayStatus);
 
   analytics(['_trackEvent', e.target.id, '^-^']);
 }
@@ -188,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     library_target: 'SeleniumLibrary',
     locators: []
   }, (state) => {
-    display({ message: state.message });
+    displayStatus({ message: state.message });
     toggle({
       target: { id: state.operation },
       canSave: state.canSave,
@@ -232,8 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {
+  logger.debug(changes);
   for (const key in changes) {
-    if (key === 'isBusy') busy({ isBusy: changes.isBusy.newValue });
-    if (key === 'message') display({ message: changes.message.newValue });
+    const newValue = changes[key].newValue;
+    if (key === 'isBusy') busy({ isBusy: newValue });
+    if (key === 'message') displayStatus(newValue);
+    if (key === 'script') displayScript(newValue);
   }
 });

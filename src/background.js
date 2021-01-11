@@ -59,12 +59,20 @@ const logger = {
   }
 };
 
+function handleError(success) {
+  const lastError = host.runtime.lastError;
+  if (!success && lastError) {
+    console.error(lastError.message);
+    storage.set({ message: statusMessage.failure, canSave: false });
+  }
+}
+
 host.runtime.onMessage.addListener((message, sender, sendResponse) => {
   recordTab = sender.tab || message.recordTab || recordTab;
   content.query({ active: true }, (tabs) => {
     recordTab = tabs[0];
   });
-  storage.get(['target', 'syntax'], (items) => {
+  return storage.get(['target', 'syntax'], (items) => {
     const translator = initializeTranslator(items.target, items.syntax);
     let { operation } = message;
     host.runtime.getBackgroundPage(page => page.console.debug(message));
@@ -76,8 +84,8 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       list = [{
         type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
       }];
-      content.sendMessage(recordTab.id, { operation });
-      storage.set({ message: statusMessage[operation], operation, canSave: false });
+      storage.set({ message: statusMessage.record, operation: 'record', canSave: false });
+      return content.sendMessage(recordTab.id, { operation }, handleError);
     } else if (operation === 'pause') {
       icon.setIcon({ path: logo.pause });
 
@@ -88,42 +96,36 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
     } else if (operation === 'resume') {
       operation = 'record';
 
-      icon.setIcon({ path: logo[operation] });
+      icon.setIcon({ path: logo.record });
 
       content.query(tab, (tabs) => {
         content.sendMessage(recordTab.id, { operation });
-        storage.set({ message: statusMessage[operation], operation, canSave: false });
+        storage.set({ message: statusMessage.record, operation, canSave: false });
       });
     } else if (operation === 'scan') {
       if (recordTab) {
         list = [{
           type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
         }];
-        content.sendMessage(recordTab.id, { operation, locators: message.locators }, (success) => {
-          const lastError = host.runtime.lastError;
-          if (!success && lastError) {
-            console.debug(lastError.message);
-            storage.set({ message: statusMessage.failedScan, operation: 'scan', canSave: false });
-          }
-        });
+        // canSave: true should only be set after the operation returns succesfully. So in the callback?
         storage.set({
           message: statusMessage.scan, operation: 'scan', canSave: true, isBusy: false
         });
-      } else {
-        storage.set({
-          message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
-        });
+        return content.sendMessage(recordTab.id, { operation, locators: message.locators }, handleError);
       }
+      storage.set({
+        message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
+      });
     } else if (operation === 'stop') {
       icon.setIcon({ path: logo[operation] });
 
       script = translator.generateOutput(list, maxLength, demo, verify);
       if (script) {
-        storage.set({ message: script, operation, canSave: true });
+        storage.set({ script, operation: 'stop', canSave: true });
         content.sendMessage(recordTab.id, { operation: 'stop' });
       } else {
-        storage.set({ message: statusMessage.failedRecord, operation, canSave: false },
-          () => content.sendMessage(recordTab.id, { operation: 'stop' }));
+        storage.set({ message: statusMessage.failedRecord, operation, canSave: false });
+        content.sendMessage(recordTab.id, { operation: 'stop' });
       }
     } else if (operation === 'save') {
       const file = translator.generateFile(list, maxLength, demo, verify);
@@ -156,7 +158,7 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       list = list.concat(message.scripts);
       script = translator.generateOutput(list, maxLength, demo, verify);
 
-      storage.set({ message: script, operation: 'stop', isBusy: false });
+      storage.set({ script, operation: 'stop', isBusy: false });
     } else if (operation === 'clear-script') {
       list = [];
       storage.set({ message: 'Cleared', canSave: false });
@@ -165,8 +167,8 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
     } else if (operation === 'display') {
       storage.set({ message: message.message });
     }
+    // https://github.com/mozilla/webextension-polyfill/issues/130 lets chrome now that our callback succeeded
+    sendResponse({});
+    return Promise.resolve('This should not show in console');
   });
-  // https://github.com/mozilla/webextension-polyfill/issues/130 lets chrome now that our callback succeeded
-  sendResponse({});
-  return Promise.resolve('This should not show in console');
 });

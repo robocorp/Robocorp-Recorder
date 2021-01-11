@@ -83,7 +83,13 @@
   </div>
 
   <div class="pad">
-    <textarea id="textarea-script" tabindex="-1" readonly title="steps"></textarea>
+    <output id="status-field"></output>
+  </div>
+
+  <div class="pad">
+    <pre id="script-container" >
+      <code id="script-output" tabindex="-1"  title="Generated script"></code>
+    </pre>
   </div>
 
   <div class="hidden" id="xpath-inputs" >
@@ -99,7 +105,7 @@
     <button class="btn btn-wide" id="save" tabindex="-1" disabled title="download test script">
       save
     </button>
-    <button class="btn" id="copy" tabindex="-1" title="copy to clipboard" data-clipboard-target="#textarea-script" disabled>
+    <button class="btn" id="copy" tabindex="-1" title="copy to clipboard" data-clipboard-target="#script-output" disabled>
     </button>
     <button class="btn btn-wide" id="clear-script" tabindex="-1" title="clear script">
       clear
