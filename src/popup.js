@@ -75,7 +75,7 @@ function show(ids, visible) {
 
   elements.forEach((elem) => {
     if (elem) visible ? elem.classList.remove('hidden') : elem.classList.add('hidden');
-    else console.log('Tried to toggle visibility of non-existent element');
+    else logger.errror('Tried to toggle visibility of non-existent element');
   });
 }
 
@@ -88,6 +88,10 @@ function enable(array, isEnabled) {
     const element = document.getElementById(id);
     isEnabled ? element.classList.remove('disabled') : element.classList.add('disabled');
   });
+}
+
+function toggleHidden(id) {
+  document.getElementById(id).classList.toggle('hidden');
 }
 
 function toggle(e) {
@@ -106,13 +110,13 @@ function toggle(e) {
     show(['record', 'scan', 'xpath-console', 'copy', 'save', 'clear-script'], true);
     enable(['settings-panel'], true);
   } else if (e.target.id === 'settings') {
-    analytics(['_trackEvent', 'settings', '⚙️']);
-    document.getElementById('textarea-script').classList.toggle('hidden');
-    document.getElementById('settings-panel').classList.toggle('hidden');
+    show(['record', 'scan', 'xpath-console'], true);
+    toggleHidden('textarea-script');
+    toggleHidden('settings-panel');
   } else if (e.target.id === 'xpath-console') {
     show(['record', 'scan', 'xpath-console'], true);
-    // document.getElementById('textarea-script').classList.toggle('hidden');
-    document.getElementById('xpath-inputs').classList.toggle('hidden');
+    toggleHidden('textarea-script');
+    toggleHidden('xpath-inputs');
   }
 
   if ((e.canSave === false) || (e.target.id === 'record')) {

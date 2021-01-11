@@ -99,7 +99,13 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         list = [{
           type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
         }];
-        content.sendMessage(recordTab.id, { operation, locators: message.locators });
+        content.sendMessage(recordTab.id, { operation, locators: message.locators }, (success) => {
+          const lastError = host.runtime.lastError;
+          if (!success && lastError) {
+            console.debug(lastError.message);
+            storage.set({ message: statusMessage.failedScan, operation: 'scan', canSave: false });
+          }
+        });
         storage.set({
           message: statusMessage.scan, operation: 'scan', canSave: true, isBusy: false
         });
