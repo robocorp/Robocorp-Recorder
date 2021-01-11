@@ -34,11 +34,11 @@ function analytics(data) {
 function analytics(_) {}
 
 const logger = {
-  debug: (data) => {
-    host.runtime.getBackgroundPage(page => page.console.debug(data));
+  debug: (data, rest) => {
+    host.runtime.getBackgroundPage(page => page.console.debug(data, rest));
   },
-  error: (data) => {
-    host.runtime.getBackgroundPage(page => page.console.error(data));
+  error: (data, rest) => {
+    host.runtime.getBackgroundPage(page => page.console.error(data, rest));
   }
 };
 
@@ -152,6 +152,8 @@ function busy(e) {
 
 function operation(e) {
   toggle(e);
+  // FIXME: change in displayStatus signature is reason why now status sometimes shows Object object.
+  // Go back to old signature or figure out other way around
   host.runtime.sendMessage({ operation: e.target.id }, displayStatus);
 
   analytics(['_trackEvent', e.target.id, '^-^']);
@@ -195,9 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
     demo: false,
     verify: false,
     library_target: 'SeleniumLibrary',
-    locators: []
+    locators: [],
+    script: '',
   }, (state) => {
-    displayStatus({ message: state.message });
+    displayStatus(state.message);
+    displayScript(state.script);
     toggle({
       target: { id: state.operation },
       canSave: state.canSave,
@@ -241,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {
-  logger.debug(changes);
+  logger.debug('Localstorage event, changes: ', changes);
   for (const key in changes) {
     const newValue = changes[key].newValue;
     if (key === 'isBusy') busy({ isBusy: newValue });

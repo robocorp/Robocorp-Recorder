@@ -15,8 +15,10 @@ const filename = 'robot_script.robot';
 const statusMessage = {
   stop: 'Stopped',
   record: 'Recording action...',
+  succesfulRecord: 'Recorded script',
   scan: 'Scanning html document...',
   failure: 'Operation failed. Please try refreshing the web page.',
+  idle: 'idle',
 };
 
 const instruction = `Robocorp Recorder

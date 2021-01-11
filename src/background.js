@@ -60,6 +60,7 @@ const logger = {
 };
 
 function handleError(success) {
+  if (success) return;
   const lastError = host.runtime.lastError;
   if (!success && lastError) {
     console.error(lastError.message);
@@ -85,43 +86,39 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         type: 'url', path: recordTab.url, time: 0, trigger: 'record', title: recordTab.title
       }];
       storage.set({ message: statusMessage.record, operation: 'record', canSave: false });
-      return content.sendMessage(recordTab.id, { operation }, handleError);
+      // FIXME: just passing handleError does not work. Need some advanced solution.
+      return content.sendMessage(recordTab.id, { operation });
     } else if (operation === 'pause') {
       icon.setIcon({ path: logo.pause });
 
-      content.query(tab, (tabs) => {
-        content.sendMessage(recordTab.id, { operation: 'stop' });
-        storage.set({ operation: 'pause', canSave: false, isBusy: false });
-      });
+      content.sendMessage(recordTab.id, { operation: 'stop' });
+      storage.set({ operation: 'pause', canSave: false, isBusy: false });
     } else if (operation === 'resume') {
       operation = 'record';
 
       icon.setIcon({ path: logo.record });
 
-      content.query(tab, (tabs) => {
-        content.sendMessage(recordTab.id, { operation });
-        storage.set({ message: statusMessage.record, operation, canSave: false });
-      });
+      content.sendMessage(recordTab.id, { operation });
+      storage.set({ message: statusMessage.record, operation, canSave: false });
     } else if (operation === 'scan') {
       if (recordTab) {
         list = [{
           type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
         }];
-        // canSave: true should only be set after the operation returns succesfully. So in the callback?
         storage.set({
-          message: statusMessage.scan, operation: 'scan', canSave: true, isBusy: false
+          message: statusMessage.scan, operation: 'scan', canSave: false, isBusy: true
+        }, content.sendMessage(recordTab.id, { operation, locators: message.locators }, handleError));
+      } else {
+        storage.set({
+          message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
         });
-        return content.sendMessage(recordTab.id, { operation, locators: message.locators }, handleError);
       }
-      storage.set({
-        message: statusMessage.failedScan, operation: 'scan', canSave: false, isBusy: false
-      });
     } else if (operation === 'stop') {
       icon.setIcon({ path: logo[operation] });
 
       script = translator.generateOutput(list, maxLength, demo, verify);
       if (script) {
-        storage.set({ script, operation: 'stop', canSave: true });
+        storage.set({ message: statusMessage.succesfulRecord, script, operation: 'stop', canSave: true });
         content.sendMessage(recordTab.id, { operation: 'stop' });
       } else {
         storage.set({ message: statusMessage.failedRecord, operation, canSave: false });
@@ -144,6 +141,7 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         demo, verify, target, syntax
       });
     } else if (operation === 'load') {
+      // TODO: this is what causes scan to run after page is refreshed
       storage.get({ operation: 'stop', locators: [] }, (state) => {
         content.sendMessage(sender.tab.id, { operation: state.operation, locators: state.locators });
       });
@@ -158,10 +156,13 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       list = list.concat(message.scripts);
       script = translator.generateOutput(list, maxLength, demo, verify);
 
-      storage.set({ script, operation: 'stop', isBusy: false });
+      storage.set({
+        message: statusMessage.idle, script, operation: 'stop', isBusy: false, canSave: true
+      });
     } else if (operation === 'clear-script') {
       list = [];
       storage.set({ message: 'Cleared', canSave: false });
+      storage.remove('script');
     } else if (operation === 'xpath-validate') {
       content.sendMessage(recordTab.id, { operation: 'xpath-validate', xpath: message.xpath });
     } else if (operation === 'display') {
