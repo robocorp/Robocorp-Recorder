@@ -112,8 +112,7 @@ function toggle(e) {
   }
 
   if (e.target.id === 'pause') {
-    // FIXME: this doesn't actually make resume and stop visible
-    show(['resume', 'stop']);
+    show(['resume', 'stop'], true);
   } else if (e.target.id === 'resume' || e.target.id === 'record') {
     show(['pause', 'stop'], true);
   } else if ((e.target.id === 'stop') || (e.target.id === 'scan')) {
