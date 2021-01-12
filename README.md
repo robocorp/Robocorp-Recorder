@@ -25,11 +25,11 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 ## Screenshots
 ### Main view
 
-<img src="robocorp-assets/main-view-07012021.png" width="480" />
+<img src="robocorp-assets/main-view.png" width="480" />
 
 ### Settings
 
-<img src="robocorp-assets/settings-view-07012021.png" width="480" />
+<img src="robocorp-assets/settings-view.png" width="480" />
 
 ## Features
 
