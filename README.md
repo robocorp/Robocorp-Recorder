@@ -35,6 +35,7 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 
 1. Recording user actions
 2. Scanning the html page
+3. Validating XPATH selectors
 
 ### New Features RF Recorder (December 2020)
 Choose between generating locators for Robotframework Browser (playwright based) or SeleniumLibrary

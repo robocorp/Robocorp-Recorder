@@ -63,7 +63,7 @@ function handleError(success) {
   if (success) return;
   const lastError = host.runtime.lastError;
   if (!success && lastError) {
-    console.error(lastError.message);
+    logger.debug(lastError.message);
     storage.set({ message: statusMessage.failure, canSave: false });
   }
 }

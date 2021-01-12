@@ -1,5 +1,15 @@
 # Change Log
 Robocorp Recorder
+## [0.5.0]
+- Make XPath highlighting work better
+- Fix confusing icons
+- Add separate Status element from main output area
+- Make main output area more clear
+
+## [0.4.0]
+- Add XPath highlighting
+- Add clear button
+
 ## [0.2.0]
 - Add Robocorp style icons and branding
 - Remove need for "all-pages" permission

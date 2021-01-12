@@ -190,6 +190,7 @@ img {
 
 #script-container {
     background-color: #2E343F;
+    padding: 4px;
 }
 
 #script-output {
@@ -199,7 +200,6 @@ img {
     color: #f8f8f2;
     min-width: 100%;
     min-height: 150px;
-    padding: 0 4px;
     outline: none;
     /* border-radius: 1px;
      border: 1px solid #BBBBBB; */
