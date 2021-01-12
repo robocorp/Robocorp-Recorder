@@ -135,11 +135,19 @@ function toggle(e) {
     document.getElementById('save').disabled = false;
     document.getElementById('copy').disabled = false;
   }
-  if (e.demo) { document.getElementById('demo').checked = e.demo; }
-  if (e.verify) { document.getElementById('verify').checked = e.verify; }
-  // FIXME: This is necessary to let the old settings show when user re-opens the settings modal
-  if (e.target) { /* select corresponding radio here */ }
-  if (e.syntax) { /* select corresponding radio here */ }
+  if (e.demo) { document.getElementById('demo').checked = e.demo === true; }
+  if (e.verify) { document.getElementById('verify').checked = e.verify === true; }
+
+  if (e.library_target) {
+    const rfbrowserSelected = e.library_target === 'Browser';
+    document.getElementById('target_rfbrowser').checked = rfbrowserSelected;
+    document.getElementById('target_seleniumlibrary').checked = !rfbrowserSelected;
+  }
+  if (e.syntax) {
+    const rpaSelected = e.syntax === 'rpa';
+    document.getElementById('syntax_rpa').checked = rpaSelected;
+    document.getElementById('syntax_testing').checked = !rpaSelected;
+  }
 }
 
 function busy(e) {
@@ -155,7 +163,6 @@ function operation(e) {
   // FIXME: change in displayStatus signature is reason why now status sometimes shows Object object.
   // Go back to old signature or figure out other way around
   host.runtime.sendMessage({ operation: e.target.id }, displayStatus);
-
   analytics(['_trackEvent', e.target.id, '^-^']);
 }
 
@@ -182,12 +189,6 @@ function updateSettings(e) {
   analytics(['_trackEvent', 'setting', e.target.id]);
 }
 
-function info() {
-  host.runtime.sendMessage({ operation: 'info' });
-
-  analytics(['_trackEvent', 'info', 'ℹ️']);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   storage.get({
     message: 'Record or Scan',
@@ -196,19 +197,22 @@ document.addEventListener('DOMContentLoaded', () => {
     isBusy: false,
     demo: false,
     verify: false,
-    library_target: 'SeleniumLibrary',
+    target: 'SeleniumLibrary',
+    syntax: 'rpa',
     locators: [],
     script: '',
   }, (state) => {
     displayStatus(state.message);
     displayScript(state.script);
+    // FIXME: rename target to current operation and toggle's first param to `state` instead of `e`
     toggle({
       target: { id: state.operation },
       canSave: state.canSave,
       isBusy: state.isBusy,
       demo: state.demo,
       verify: state.verify,
-      library_target: state.library_target,
+      library_target: state.target,
+      syntax: state.syntax,
     });
   });
 
@@ -239,9 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('textinput-xpath').addEventListener('input', xpathValidate);
-
-  // document.getElementById('info').addEventListener('click', info);
-  // document.getElementById('settings').addEventListener('click', toggle);
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {
