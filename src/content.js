@@ -66,9 +66,9 @@ function xpathValidation(xpath) {
   for (let i = 0; i < xpathResult.snapshotLength; i++) {
     const node = xpathResult.snapshotItem(i);
     console.debug(node);
-    node.style.backgroundColor = '#FDFF47';
-    const e = node.nodeValue;
-    if (e) {
+    const e = node;
+    // 1 represents Element node type according to https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+    if (e.nodeType === 1) {
       const d = document.createElement('div');
       d.className = 'robocorp-recorder-highlight';
       d.appendChild(document.createTextNode(''));
@@ -84,7 +84,7 @@ function xpathValidation(xpath) {
         d.remove();
       }, options.dur || 5000);
     } else {
-      console.debug('Could not get .nodevalue of ', node);
+      console.debug('Node was not an element ', node);
     }
   }
 }
