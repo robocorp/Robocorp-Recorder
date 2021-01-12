@@ -65,6 +65,10 @@
     background-image: url("icon-copy-disabled.svg");
 }
 
+#clear-script::before {
+  background-image: url("icon-delete-blank.svg");
+}
+
 .copy-ok#copy::before {
     background-image: url("icon-ok.svg");
 }
@@ -82,7 +86,7 @@
 }
 
 #xpath-console::before {
-    background-image: url("icon-x.svg");
+  width: 0px;
 }
 
 #update::before {

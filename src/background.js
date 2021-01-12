@@ -118,7 +118,9 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       script = translator.generateOutput(list, maxLength, demo, verify);
       if (script) {
-        storage.set({ message: statusMessage.succesfulRecord, script, operation: 'stop', canSave: true });
+        storage.set({
+          message: statusMessage.succesfulRecord, script, operation: 'stop', canSave: true
+        });
         content.sendMessage(recordTab.id, { operation: 'stop' });
       } else {
         storage.set({ message: statusMessage.failedRecord, operation, canSave: false });
