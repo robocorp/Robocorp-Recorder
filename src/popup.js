@@ -64,9 +64,11 @@ clipboard.on('error', (e) => {
 });
 
 function updateValueByMessage(elementId, message) {
-  if (message) {
+  if (message || message === '') {
     const field = document.querySelector(elementId);
     field.innerText = message.toString();
+  } else {
+    logger.debug(`Tried to update value of ${elementId} by ${message}`);
   }
 }
 
@@ -251,6 +253,6 @@ host.storage.onChanged.addListener((changes, _) => {
     const newValue = changes[key].newValue;
     if (key === 'isBusy') busy({ isBusy: newValue });
     if (key === 'message') displayStatus(newValue);
-    if (key === 'script') displayScript(newValue);
+    if (key === 'script') displayScript(newValue || '');
   }
 });
