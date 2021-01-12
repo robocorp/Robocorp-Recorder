@@ -31,6 +31,10 @@ https://robocorp.com/docs/development-howtos/browser/playwright for playwright b
 
 <img src="robocorp-assets/settings-view.png" width="480" />
 
+### Scan output
+
+<img src="robocorp-assets/scan-output.png" width="480" />
+
 ## Features
 
 1. Recording user actions
