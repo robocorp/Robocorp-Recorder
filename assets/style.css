@@ -189,15 +189,15 @@ img {
 }
 
 #script-container {
-    background-color: #2E343F;
-    padding: 4px;
+    background-color: #f0f0f0;
+    padding: 0px 4px 0px 4px;
 }
 
 #script-output {
     font-family: monospace;
     /* font-weight: 300;
     font-size: 14px;*/
-    color: #f8f8f2;
+    color: #black;
     min-width: 100%;
     min-height: 150px;
     outline: none;

@@ -137,9 +137,9 @@ function toggle(e) {
   }
   if (e.demo) { document.getElementById('demo').checked = e.demo; }
   if (e.verify) { document.getElementById('verify').checked = e.verify; }
-  // This is necessary to let the old settings show when user re-opens the settings modal
-  if (e.target) { /* FIXME: select corresponding radio here */ }
-  if (e.syntax) { /* FIXME: select corresponding radio here */ }
+  // FIXME: This is necessary to let the old settings show when user re-opens the settings modal
+  if (e.target) { /* select corresponding radio here */ }
+  if (e.syntax) { /* select corresponding radio here */ }
 }
 
 function busy(e) {
