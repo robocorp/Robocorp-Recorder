@@ -40,8 +40,8 @@
       </button>
     </span>
 
-    <button class="btn btn-thin" id="settings" tabindex="-1" title="show/hide settings" data-intro="Settings" data-position="bottom"></button>
     <button class="btn btn-thin btn-last" id="info" tabindex="-1" title="Toggle instructions"></button>
+    <button class="btn btn-thin" id="settings" tabindex="-1" title="show/hide settings" data-intro="Settings" data-position="bottom"></button>
   </div>
 
   <div class="pad">
@@ -52,33 +52,33 @@
     <div class="panel-row">
       <div>
         <h3>Target Library</h3>
-        <div>
+        <div class="toggle">
           <input type="radio" class="target" id="target_seleniumlibrary" name="target_library">
           <label for="target_seleniumlibrary">RPA.Browser.Selenium / SeleniumLibrary</label>
         </div>
-        <div>
+        <div class="toggle toggle-last">
           <input type="radio" class="target" id="target_rfbrowser" name="target_library">
           <label for="target_rfbrowser">RobotFramework Browser</label>
         </div>
       </div>
       <div>
         <h3>Target RF Syntax</h3>
-        <div>
+        <div class="toggle">
           <input type="radio" class="syntax" name="syntax" id="syntax_rpa" >
           <label for="syntax_rpa">RPA (Tasks)</label>
         </div>
-        <div>
+        <div class="toggle toggle-last">
           <input type="radio" class="syntax" name="syntax" id="syntax_testing" >
           <label for="syntax_testing">Test Automation (Test cases)</label>
         </div>
       </div>
       <div>
         <h3>Advanced settings</h3>
-        <div>
+        <div class="toggle">
           <input type="checkbox" id="demo" />
           <label for="demo"> Add a sleep after each action (for creating easy-to-showcase demo scripts) </label>
         </div>
-        <div>
+        <div class="toggle toggle-last">
           <input type="checkbox" id="verify" />
           <label for="verify">Check page contains element before performing the action</label>
         </div>

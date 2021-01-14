@@ -130,7 +130,7 @@ function toggle(e) {
     show(['pause', 'stop', 'status-field'], true);
     hide(['settings-panel', 'xpath-inputs'], true);
     setInactive(['xpath-console', 'settings', 'scan']);
-  } else if (e.target.id === 'stop') {
+  } else if (e.target.id === 'stop' || e.target.id === 'save') {
     show(['record', 'scan', 'xpath-console', 'status-field', 'script-container'], true);
     hide(['xpath-inputs', 'settings-panel'], true);
     setInactive(['xpath-console', 'settings', 'scan']);
