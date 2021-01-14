@@ -18,11 +18,11 @@ const statusMessage = {
   succesfulRecord: 'Recorded script',
   scan: 'Scanning html document...',
   failure: 'Operation failed. Please try refreshing the web page.',
-  idle: 'idle',
+  idle: 'Idle',
 };
 
 const instruction = `Robocorp Recorder
   Generate a Robot Framework automation script by
-  * Recording actions
-  * Scanning the page for automatable inputs
+  – Recording actions
+  – Scanning the page for automatable inputs
    Automating automation 🤖`;

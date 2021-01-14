@@ -105,29 +105,49 @@ function toggleHidden(id) {
   document.getElementById(id).classList.toggle('hidden');
 }
 
+function setActive(id) {
+  document.getElementById(id).classList.add('btn-active');
+}
+
+function setInactive(array) {
+  array.forEach((id) => {
+    document.getElementById(id).classList.remove('btn-active');
+  });
+}
+
 function toggle(e) {
   logger.debug(e.target.id);
   // Hide all buttons by default and explicitly show buttons to show
   if (e.target.id !== 'clear-script') {
-    hide(['record', 'scan', 'pause', 'xpath-console', 'resume', 'stop', 'save', 'copy', 'clear-script']);
+    hide(['record', 'scan', 'pause', 'xpath-console', 'resume', 'stop', 'script-container']);
     enable(['settings-panel'], false);
   }
 
   if (e.target.id === 'pause') {
     show(['resume', 'stop'], true);
   } else if (e.target.id === 'resume' || e.target.id === 'record') {
-    show(['pause', 'stop'], true);
-  } else if ((e.target.id === 'stop') || (e.target.id === 'scan')) {
-    show(['record', 'scan', 'xpath-console', 'copy', 'save', 'clear-script'], true);
-    enable(['settings-panel'], true);
+    show(['pause', 'stop', 'status-field'], true);
+    hide(['settings-panel', 'xpath-inputs'], true);
+    setInactive(['xpath-console', 'settings', 'scan']);
+  } else if (e.target.id === 'stop') {
+    show(['record', 'scan', 'xpath-console', 'status-field', 'script-container'], true);
+    hide(['xpath-inputs', 'settings-panel'], true);
+    setInactive(['xpath-console', 'settings', 'scan']);
   } else if (e.target.id === 'settings') {
-    show(['record', 'scan', 'xpath-console'], true);
-    toggleHidden('script-output');
-    toggleHidden('settings-panel');
+    show(['record', 'scan', 'xpath-console', 'settings-panel'], true);
+    hide(['script-container', 'xpath-inputs', 'status-field'], true);
+    setActive('settings');
+    setInactive(['scan', 'xpath-console']);
   } else if (e.target.id === 'xpath-console') {
-    show(['record', 'scan', 'xpath-console'], true);
-    toggleHidden('script-output');
-    toggleHidden('xpath-inputs');
+    show(['record', 'scan', 'xpath-console', 'xpath-inputs', 'status-field'], true);
+    hide(['settings-panel']);
+    setInactive(['settings', 'scan']);
+    setActive('xpath-console');
+  } else if (e.target.id === 'scan') {
+    show(['record', 'scan', 'xpath-console', 'status-field', 'script-container'], true);
+    hide(['xpath-inputs', 'settings-panel'], true);
+    setActive('scan');
+    setInactive(['xpath-console', 'settings']);
   }
 
   if ((e.canSave === false) || (e.target.id === 'record')) {

@@ -13,45 +13,45 @@
 <body class="container" tabindex="-1">
   <div class="padding">
     <span>
-      <button class="btn btn-wide" id="record" tabindex="-1" title="record user action">
-        record
+      <button class="btn btn-wide" id="record" tabindex="-1" title="Record user action">
+        Record
       </button>
 
-      <button class="btn btn-wide" id="stop" tabindex="-1" title="stop the recording">
-        stop
+      <button class="btn btn-wide" id="stop" tabindex="-1" title="Stop the recording">
+        Stop
       </button>
 
-      <button class="btn btn-wide" id="resume" tabindex="-1" title="resume with the recording">
-        resume
+      <button class="btn btn-wide" id="resume" tabindex="-1" title="Resume with the recording">
+        Resume
       </button>
 
-      <button class="btn btn-wide" id="pause" tabindex="-1" title="pause the recording">
-        pause
+      <button class="btn btn-wide" id="pause" tabindex="-1" title="Pause the recording">
+        Pause
       </button>
 
-      <button class="btn btn-wide" id="scan" tabindex="-1" title="scan entire page. might be slow">
-        scan
+      <button class="btn btn-wide" id="scan" tabindex="-1" title="Scan entire page. might be slow">
+        Scan Page
       </button>
 
-      <button class="btn" id="xpath-console" tabindex="-1" title="show/hide xpath console">
-        XPath
+      <button class="btn" id="xpath-console" tabindex="-1" title="Show/hide xpath console">
+        Validate XPath
       </button>
     </span>
 
-    <span class="btn-thin">
-      <button class="btn" id="settings" tabindex="-1" title="show/hide settings"></button>
-      <button class="btn" id="info" tabindex="-1" title="open instructions in another tab"></button>
+    <span>
+      <button class="btn btn-thin btn-last" id="info" tabindex="-1" title="Open instructions in another tab"></button>
+      <button class="btn btn-thin" id="settings" tabindex="-1" title="Show/hide settings"></button>
     </span>
   </div>
 
   <div class="pad">
-    status: <output id="status-field"></output>
+    <output id="status-field"></output>
   </div>
 
   <div id="settings-panel" class="hidden">
     <div class="panel-row">
       <div>
-        <p> Target Library </p>
+        <h3>Target Library</h3>
         <div>
           <input type="radio" class="target" id="target_seleniumlibrary" name="target_library">
           <label for="target_seleniumlibrary">RPA.Browser.Selenium / SeleniumLibrary</label>
@@ -62,18 +62,18 @@
         </div>
       </div>
       <div>
-        <p> Target RF syntax </p>
+        <h3>Target RF Syntax</h3>
         <div>
           <input type="radio" class="syntax" name="syntax" id="syntax_rpa" >
-          <label for="rpa_syntax">RPA (Tasks)</label>
+          <label for="syntax_rpa">RPA (Tasks)</label>
         </div>
         <div>
           <input type="radio" class="syntax" name="syntax" id="syntax_testing" >
-          <label for="test_syntax">Test Automation (Test cases)</label>
+          <label for="syntax_testing">Test Automation (Test cases)</label>
         </div>
       </div>
       <div>
-        <p> Extra settings </p>
+        <h3>Advanced settings</h3>
         <div>
           <input type="checkbox" id="demo" />
           <label for="demo"> Add a 3s sleep after each action (for demo) </label>
@@ -85,24 +85,30 @@
       </div>
     </div>
   </div>
-  <div class="pad">
-    <pre id="script-container"><code id="script-output" tabindex="-1" title="Generated script"></code></pre>
+
+  <div class="pad" id="script-container">
+    <pre>
+      <code id="script-output" tabindex="-1" title="Generated script"></code>
+    </pre>
+    <div id="script-actions">
+      <div>
+        <button class="btn btn-context" id="copy" tabindex="-1" title="Copy to clipboard" data-clipboard-target="#script-output" disabled>
+          Copy
+        </button>
+        <button class="btn btn-context" id="save" tabindex="-1" disabled title="Download test script">
+          Download
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-context btn-last" id="clear-script" tabindex="-1" title="Clear script">
+          Clear
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="hidden" id="xpath-inputs" >
-    <input type="text" id="textinput-xpath" tabindex="-1" title="xpath expression" class="horizontal-pad" placeholder="//xpath-to-validate"></input>
-  </div>
-
-  <div>
-    <button class="btn btn-wide" id="save" tabindex="-1" disabled title="download test script">
-      save
-    </button>
-    <button class="btn" id="copy" tabindex="-1" title="copy to clipboard" data-clipboard-target="#script-output" disabled>
-    </button>
-    <button class="btn btn-wide" id="clear-script" tabindex="-1" title="clear script">
-      clear
-    </button>
-
+    <input type="text" id="textinput-xpath" tabindex="-1" title="XPath expression" class="horizontal-pad" placeholder="//xpath-to-validate"></input>
   </div>
 
   <div class="pad">
