@@ -118,7 +118,8 @@ function setInactive(array) {
 function toggle(e) {
   logger.debug(e.target.id);
   // Hide all buttons by default and explicitly show buttons to show
-  if (e.target.id !== 'clear-script') {
+  // Except when the button is clear-script or copy (they do not change the "operating mode")
+  if (!['clear-script', 'copy'].includes(e.target.id)) {
     hide(['record', 'scan', 'pause', 'xpath-console', 'resume', 'stop', 'script-container']);
     enable(['settings-panel'], false);
   }
