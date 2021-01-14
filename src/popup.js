@@ -150,10 +150,10 @@ function toggle(e) {
     setInactive(['xpath-console', 'settings']);
   }
 
-  if ((e.canSave === false) || (e.target.id === 'record')) {
+  if ((e.canSave === false) || (e.target.id === 'record') || (e.target.id === 'clear-script')) {
     document.getElementById('save').disabled = true;
     document.getElementById('copy').disabled = true;
-  } else if ((e.canSave === true) && (e.target.id === 'scan' || e.target.id === 'stop')) {
+  } else if (e.target.id === 'scan' || e.target.id === 'stop') {
     document.getElementById('save').disabled = false;
     document.getElementById('copy').disabled = false;
   }
