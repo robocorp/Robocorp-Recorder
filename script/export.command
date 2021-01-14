@@ -15,4 +15,6 @@ mkdir -p archive
 # zip -r archive/${VERSION}.zip . -x *.git* *.DS_Store *.idea* *.zip script/\* archive/\* test/\* node_modules/\* package* .eslint* docs/\* yarn.lock yarn-error.log .travis.yml .nyc_output/\* .husky/\*
 zip -r archive/${VERSION}.zip . -i vendors/* assets/**/* assets/* src/**/* src/* LICENSE CHANGELOG.md README.md manifest.json
 
+cp archive/${VERSION}.zip archive/latest.zip
+
 exit;

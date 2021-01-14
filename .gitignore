@@ -2,3 +2,4 @@ archive/
 *.zip
 node_modules/
 .nyc_output
+test-user-data-dir
