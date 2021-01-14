@@ -8,12 +8,14 @@
   <script src="../vendors/jquery-3.3.1.min.js"></script>
   <script src="../vendors/jquery-ui.min.js"></script>
   <script src="../vendors/clipboard-2.0.0.min.js"></script>
+  <link href="../vendors/chardinjs.css" rel="stylesheet">
+  <script src="../vendors/chardinjs.min.js"></script>
 </head>
 
 <body class="container" tabindex="-1">
   <div class="padding">
     <span>
-      <button class="btn btn-wide" id="record" tabindex="-1" title="Record user action">
+      <button class="btn btn-wide" id="record" tabindex="-1" title="Record user action" data-intro="Start recording actions" data-position="bottom">
         Record
       </button>
 
@@ -29,19 +31,17 @@
         Pause
       </button>
 
-      <button class="btn btn-wide" id="scan" tabindex="-1" title="Scan entire page. might be slow">
+      <button class="btn btn-wide" id="scan" tabindex="-1" title="Scan entire page." data-intro="Generate a script referencing interactive elements on the page" data-position="bottom">
         Scan Page
       </button>
 
-      <button class="btn" id="xpath-console" tabindex="-1" title="Show/hide xpath console">
+      <button class="btn" id="xpath-console" tabindex="-1" title="Show/hide XPath console" data-intro="Open interactive XPath console" data-position="bottom">
         Validate XPath
       </button>
     </span>
 
-    <span>
-      <button class="btn btn-thin btn-last" id="info" tabindex="-1" title="Open instructions in another tab"></button>
-      <button class="btn btn-thin" id="settings" tabindex="-1" title="Show/hide settings"></button>
-    </span>
+    <button class="btn btn-thin" id="settings" tabindex="-1" title="show/hide settings" data-intro="Settings" data-position="bottom"></button>
+    <button class="btn btn-thin btn-last" id="info" tabindex="-1" title="Toggle instructions"></button>
   </div>
 
   <div class="pad">
@@ -87,9 +87,8 @@
   </div>
 
   <div class="pad" id="script-container">
-    <pre>
-      <code id="script-output" tabindex="-1" title="Generated script"></code>
-    </pre>
+    <!-- Has to be a one-liner to not have extra indentation / newlines in the visible pre block -->
+    <pre><code id="script-output" tabindex="-1" title="Generated script"></code></pre>
     <div id="script-actions">
       <div>
         <button class="btn btn-context" id="copy" tabindex="-1" title="Copy to clipboard" data-clipboard-target="#script-output" disabled>

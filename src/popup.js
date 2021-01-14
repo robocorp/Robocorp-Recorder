@@ -1,4 +1,4 @@
-/* global document $ chrome ClipboardJS */
+/* global document $ chrome ClipboardJS chardinJs */
 const debug = false;
 const host = chrome;
 const storage = host.storage.local;
@@ -211,6 +211,10 @@ function updateSettings(e) {
   analytics(['_trackEvent', 'setting', e.target.id]);
 }
 
+function info(e) {
+  $('body').data('chardinJs').toggle();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   storage.get({
     message: 'Record or Scan',
@@ -249,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
     'scan',
     'xpath-console',
     'settings',
-    'info',
     'clear-script',
   ].forEach((id) => {
     document.getElementById(id).addEventListener('click', operation);
@@ -265,6 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('textinput-xpath').addEventListener('input', xpathValidate);
+  $('body').chardinJs();
+  document.getElementById('info').addEventListener('click', info);
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {

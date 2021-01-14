@@ -339,3 +339,8 @@ input[type="checkbox"], input[type="radio"] {
     background-color: transparent;
 }
 
+button.copy-ok:hover {
+    cursor: pointer;
+    z-index: 1;
+    border: 1px solid #474747;
+}
