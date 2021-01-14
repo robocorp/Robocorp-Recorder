@@ -25,8 +25,23 @@ function handleByChange(type) {
   return ['text', 'file', 'select'].some(n => type === n);
 }
 
+const debug = false;
+const logger = debug ? {
+  debug: (data) => {
+    /* eslint-disable-next-line no-console */
+    console.debug(data);
+  },
+  error: (data) => {
+    /* eslint-disable-next-line no-console */
+    console.error(data);
+  }
+} : {
+  debug: (_) => {},
+  error: (_) => {},
+};
+
 function recordChange(event) {
-  console.log('Tab recorded event: ', event);
+  logger.debug('Tab recorded event: ', event);
   const attr = scanner.parseNode(getTime(), event.target, strategyList);
 
   if (handleByChange(attr.type)) {
@@ -36,7 +51,7 @@ function recordChange(event) {
 }
 
 function recordClick(event) {
-  console.log('Tab recorded event: ', event);
+  logger.debug('Tab recorded event: ', event);
   const attr = scanner.parseNode(getTime(), event.target, strategyList);
 
   if (!handleByChange(attr.type)) {
@@ -52,11 +67,11 @@ function xpathValidation(xpath) {
     xpathResult = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
   } catch (error) {
     host.runtime.sendMessage({ operation: 'display', message: error.toString() });
-    console.debug(error);
+    logger.debug(error);
   }
   if (!xpathResult) return;
   host.runtime.sendMessage({ operation: 'display', message: `XPath is valid, matches: ${xpathResult.snapshotLength}` });
-  console.debug(xpathResult);
+  logger.debug(xpathResult);
   const options = {
     dur: 5000,
     wdt: '2px',
@@ -65,7 +80,7 @@ function xpathValidation(xpath) {
   };
   for (let i = 0; i < xpathResult.snapshotLength; i++) {
     const node = xpathResult.snapshotItem(i);
-    console.debug(node);
+    logger.debug(node);
     const e = node;
     // 1 represents Element node type according to https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
     if (e.nodeType === 1) {
@@ -84,13 +99,13 @@ function xpathValidation(xpath) {
         d.remove();
       }, options.dur || 5000);
     } else {
-      console.debug('Node was not an element ', node);
+      logger.debug('Node was not an element ', node);
     }
   }
 }
 
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('Tab received message: ', request);
+  logger.debug('Tab received message: ', request);
   if (request.operation === 'record') {
     strategyList = request.locators || [];
     strategyList.push('index');

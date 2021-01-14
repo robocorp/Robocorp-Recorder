@@ -6,7 +6,6 @@ const scanner = {
   parseNodes(array, root, attributesArray) {
     this.limit = this.limit - 1;
     if ((this.limit <= 0) || (root === undefined)) {
-      console.debug('Hit scanner limit');
       return array;
     }
 
