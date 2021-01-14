@@ -1,7 +1,10 @@
 # Change Log
 Robocorp Recorder
-## NEXT RELEASE [0.6.0]
+## [0.6.0]
+- Improved design and visuals
+- Added "info mode"
 - Fix storing radio selections
+
 ## [0.5.0]
 - Make XPath highlighting work better
 - Fix confusing icons
