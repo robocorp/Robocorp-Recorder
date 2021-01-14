@@ -1,6 +1,8 @@
 /* eslint-disable func-names */
+/* eslint-disable no-console */
 const { chromium } = require('playwright');
 const pathLib = require('path');
+const assert = require('assert');
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -27,12 +29,17 @@ describe('playwright-integration-tests', (async function () {
 
   it('background page should open', async function () {
     this.timeout(5000);
+    sleep(2000);
+
+    console.log(browserContext.backgroundPages());
     const backgroundPage = browserContext.backgroundPages()[0];
-    // console.log(backgroundPage)
-    const currentRecordTab = await backgroundPage.evaluate(
-      function () { return this.recordTab; }
+    console.log(backgroundPage);
+    const currentScriptOperations = await backgroundPage.evaluate(
+      /* eslint-disable-next-line no-undef */
+      () => this.list
     );
-    return currentRecordTab === 0;
+    console.log(currentScriptOperations);
+    return assert(currentScriptOperations.length === 0);
 
     // Use the background page as you would any other page.
   });
