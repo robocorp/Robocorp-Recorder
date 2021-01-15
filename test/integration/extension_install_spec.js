@@ -31,14 +31,14 @@ describe('playwright-integration-tests', (async function () {
     this.timeout(5000);
     sleep(2000);
 
-    console.log(browserContext.backgroundPages());
+    // console.log(browserContext.backgroundPages());
     const backgroundPage = browserContext.backgroundPages()[0];
-    console.log(backgroundPage);
+    // console.log(backgroundPage);
     const currentScriptOperations = await backgroundPage.evaluate(
       /* eslint-disable-next-line no-undef */
       () => this.list
     );
-    console.log(currentScriptOperations);
+    // console.log(currentScriptOperations);
     // return assert(currentScriptOperations.length === 0);
 
     // Use the background page as you would any other page.
