@@ -27,4 +27,4 @@ const instruction = `Robocorp Recorder
   – Scanning the page for automatable inputs
    Automating automation 🤖`;
 
-const defaultLocatorOrder = ['for', 'name', 'id', 'title', 'href', 'class']
+const defaultLocatorOrder = ['for', 'name', 'id', 'title', 'href', 'class'];

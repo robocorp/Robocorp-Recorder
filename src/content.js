@@ -103,7 +103,7 @@ function xpathValidation(xpath) {
     }
   }
 }
-const defaultLocatorOrder = ['for', 'name', 'id', 'title', 'href', 'class']
+const defaultLocatorOrder = ['for', 'name', 'id', 'title', 'href', 'class'];
 
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
   logger.debug('Tab received message: ', request);

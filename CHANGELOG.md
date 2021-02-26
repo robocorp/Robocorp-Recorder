@@ -1,5 +1,9 @@
 # Change Log
 Robocorp Recorder
+
+## [0.6.1]
+- Fixed bug causing all XPath locators to use indices instead of heuristics for locator strategies.
+
 ## [0.6.0]
 - Improved design and visuals
 - Added "info mode"

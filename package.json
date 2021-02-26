@@ -1,6 +1,6 @@
 {
   "name": "robocorp-recorder",
-  "version": "0.2.0",
+  "version": "0.6.1",
   "description": "A browser extension that records user action and scans the page to generate RobotFramework test script templates",
   "main": "src.background.js",
   "directories": {
