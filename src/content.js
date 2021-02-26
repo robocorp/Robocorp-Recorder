@@ -103,11 +103,12 @@ function xpathValidation(xpath) {
     }
   }
 }
+const defaultLocatorOrder = ['for', 'name', 'id', 'title', 'href', 'class']
 
 host.runtime.onMessage.addListener((request, sender, sendResponse) => {
   logger.debug('Tab received message: ', request);
   if (request.operation === 'record') {
-    strategyList = request.locators || [];
+    strategyList = request.locators || defaultLocatorOrder;
     strategyList.push('index');
     document.addEventListener('change', recordChange, true);
     document.addEventListener('click', recordClick, true);
@@ -115,7 +116,7 @@ host.runtime.onMessage.addListener((request, sender, sendResponse) => {
     document.removeEventListener('change', recordChange, true);
     document.removeEventListener('click', recordClick, true);
   } else if (request.operation === 'scan') {
-    strategyList = request.locators || [];
+    strategyList = request.locators || defaultLocatorOrder;
     strategyList.push('index');
     document.removeEventListener('change', recordChange, true);
     document.removeEventListener('click', recordClick, true);

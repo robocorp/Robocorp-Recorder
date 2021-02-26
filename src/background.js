@@ -105,6 +105,7 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
         list = [{
           type: 'url', path: recordTab.url, time: 0, trigger: 'scan', title: recordTab.title
         }];
+        // TODO: message.locators should be set here
         storage.set({
           message: statusMessage.scan, operation: 'scan', canSave: false, isBusy: true
         }, content.sendMessage(recordTab.id, { operation, locators: message.locators }, handleError));
@@ -144,6 +145,7 @@ host.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
     } else if (operation === 'load') {
       // TODO: this is what causes scan to run after page is refreshed
+      // TODO: ensure state.locators has a value
       storage.get({ operation: 'stop', locators: [] }, (state) => {
         content.sendMessage(sender.tab.id, { operation: state.operation, locators: state.locators });
       });
