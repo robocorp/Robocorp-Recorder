@@ -1,4 +1,4 @@
-/* global document $ chrome ClipboardJS chardinJs */
+/* global document chrome ClipboardJS */
 const debug = false;
 const host = chrome;
 const storage = host.storage.local;
@@ -45,8 +45,8 @@ const logger = {
 const clipboard = new ClipboardJS('#copy');
 
 const copyStatus = (className) => {
-  $('#copy').addClass(className);
-  setTimeout(() => { $('#copy').removeClass(className); }, 3000);
+  document.querySelector('#copy').classList.add(className);
+  setTimeout(() => { document.querySelector('#copy').classList.remove(className); }, 3000);
 };
 
 clipboard.on('success', (e) => {
@@ -212,10 +212,6 @@ function updateSettings(e) {
   analytics(['_trackEvent', 'setting', e.target.id]);
 }
 
-function info(e) {
-  $('body').data('chardinJs').toggle();
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   storage.get({
     message: 'Record or Scan',
@@ -269,8 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('textinput-xpath').addEventListener('input', xpathValidate);
-  $('body').chardinJs();
-  document.getElementById('info').addEventListener('click', info);
+  c.chardinJs();
+  // document.getElementById('info').addEventListener('click', info);
 }, false);
 
 host.storage.onChanged.addListener((changes, _) => {
