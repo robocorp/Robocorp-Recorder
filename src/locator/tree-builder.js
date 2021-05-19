@@ -21,7 +21,7 @@ const builder = {
 
     for (let i = 0; i < siblings.length; i++) {
       if (siblings[i] === element) { found = true; }
-      if ((siblings[i].nodeType === 1) && (siblings[i].tagName === element.tagName)) {
+      if ((siblings[i].nodeType === Node.ELEMENT_NODE) && (siblings[i].tagName === element.tagName)) {
         count += 1;
         index = !found ? index + 1 : index;
       }
@@ -51,7 +51,7 @@ const builder = {
   // traverse up the document tree to construct an array containing the element attributes
   build(element, attributesArray, pathList) {
     if (!element) return pathList;
-    if (element.nodeType === 9) return pathList;
+    if (element.nodeType === Node.DOCUMENT_NODE) return pathList;
 
     const array = this._buildAttributes(element, attributesArray);
     pathList.push({ [`${element.tagName.toLowerCase()}`]: array });

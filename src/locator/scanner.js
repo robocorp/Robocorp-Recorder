@@ -21,7 +21,7 @@ const scanner = {
 
     const children = root.childNodes;
     for (let i = 0; i < children.length; i++) {
-      if (children[i].nodeType === 1) { // element node
+      if (children[i].nodeType === Node.ELEMENT_NODE) {
         this.parseNodes(array, children[i], attributesArray);
       }
     }

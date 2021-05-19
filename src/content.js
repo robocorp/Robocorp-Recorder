@@ -82,8 +82,8 @@ function xpathValidation(xpath) {
     const node = xpathResult.snapshotItem(i);
     logger.debug(node);
     const e = node;
-    // 1 represents Element node type according to https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
-    if (e.nodeType === 1) {
+    // see https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType for list of possible `nodeType`s
+    if (e.nodeType === Node.ELEMENT_NODE) {
       const d = document.createElement('div');
       d.className = 'robocorp-recorder-highlight';
       d.appendChild(document.createTextNode(''));
